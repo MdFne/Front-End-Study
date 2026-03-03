@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            width: 300px;
+            height: 200px;
+            border: 1px solid #000;
+            margin: 50px auto;
+            text-align: center;
+            padding-top: 50px;
+        }
+
+        .btns {
+            margin-top: 20px;
+        }
+
+        .btns button {
+            margin: 0 10px;
+            padding: 5px 15px;
+        }
+
+        .output {
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <p class="output">qs</p>
+        <div class="btns">
+            <button class="start">开始</button>
+            <button class="end">结束</button>
+        </div>
+    </div>
+
+    <script>
+        // 数据数组
+        const arr = ['Alice', 'Bob', 'Charlie', 'David',
+            'Eve', 'Frank', 'Grace', 'Heidi', 'Ivan', 'Judy']
+        // 获取按钮元素
+        const startBtn = document.querySelector('.start')
+        const endBtn = document.querySelector('.end')
+        const output = document.querySelector('.output')
+        // 定义定时器变量
+        let timer
+        // 定义随机索引变量
+        let randomIndex
+        // 添加事件监听器
+        startBtn.addEventListener('click', function () {
+            timer = setInterval(function () {
+                randomIndex = Math.floor(Math.random() * arr.length)
+                output.innerHTML = arr[randomIndex]
+            }, 50)
+
+            if (arr.length === 1) {
+                startBtn.disabled = true
+                endBtn.disabled = true
+            }
+        })
+
+        endBtn.addEventListener('click', function () {
+            clearInterval(timer)
+            // 结束后删除抽中的名字
+            arr.splice(randomIndex, 1)
+        })
+
+    </script>
+</body>
+
+</html>

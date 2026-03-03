@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+            width: 500px;
+            border-collapse: collapse;
+            margin: 50px auto;
+        }
+
+        td {
+            height: 50px;
+            border: 1px solid #000000;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .check {
+            width: 60px;
+        }
+
+        .normal {
+            width: 160px;
+        }
+
+        th {
+            height: 40px;
+            background-color: rgb(149, 149, 149);
+        }
+    </style>
+</head>
+
+<body>
+    <table>
+        <tr>
+            <th class="check"><input type="checkbox" id="checkAll">全选</th>
+            <th class="normal">商品名称</th>
+            <th class="normal">商品价格</th>
+            <th class="normal">商品介绍</th>
+        </tr>
+        <tr>
+            <td class="check">
+                <input type="checkbox" name="check" class="checkItem">
+            </td>
+            <td class="normal">小米手机</td>
+            <td class="normal">5399元</td>
+            <td class="normal">adadasdfenoeffw</td>
+        </tr>
+        <tr>
+            <td class="check">
+                <input type="checkbox" name="check" class="checkItem">
+            </td>
+            <td class="normal">小米手机</td>
+            <td class="normal">5399元</td>
+            <td class="normal">adadasdfenoeffw</td>
+        </tr>
+        <tr>
+            <td class="check">
+                <input type="checkbox" name="check" class="checkItem">
+            </td>
+            <td class="normal">小米手机</td>
+            <td class="normal">5399元</td>
+            <td class="normal">adadasdfenoeffw</td>
+        </tr>
+    </table>
+
+    <script>
+        const checkAll = document.getElementById('checkAll')
+        const checkItems = document.querySelectorAll('.checkItem')
+
+        checkAll.addEventListener('change', function () {
+            checkItems.forEach(function (item) {
+                item.checked = checkAll.checked
+            })
+        })
+
+        // checkItems.forEach(function (item) {
+        //     item.addEventListener('change', function () {
+        //         const allChecked = Array.from(checkItems).every(function (checkbox) {
+        //             return checkbox.checked
+        //         })
+        //         checkAll.checked = allChecked
+        //     })
+        // })
+
+        const checkedItems = document.querySelectorAll('.checkItem:checked')
+        checkItems.forEach(function (item) {
+            item.addEventListener('change', function () {
+                // .checkItem:checked 伪类选择器可以直接获取当前被选中的复选框数量
+                const checkedItems = document.querySelectorAll('.checkItem:checked') // 获取当前被选中的复选框
+                checkAll.checked = checkedItems.length === checkItems.length
+            })
+        })
+    </script>
+</body>
+
+</html>

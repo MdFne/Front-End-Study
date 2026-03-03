@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .roll {
+            border: 2px solid red;
+            width: 200px;
+            height: 200px;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .roll-alt {
+            border: 2px dashed green;
+            width: 200px;
+            height: 200px;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .roll h1,
+        .roll h2,
+        .roll h3 {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            text-align: center;
+            justify-content: center;
+            margin: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">10</div>
+
+    <div class="roll">
+        <h1 id="firstprice">???</h1>
+        <h2 id="secondprice">$$$</h2>
+        <h3 id="thirdprice">&&&</h3>
+    </div>
+
+    <script>
+        // 1. 获取DOM元素
+        const countdownElement = document.querySelector('.box')
+        // 2. 修改DOM元素内容 对象.innerText
+        console.log(countdownElement.innerText) // 获取或设置元素的文本内容
+        countdownElement.innerText = '9' // 设置文本内容为10，不解析HTML标签
+        // 使用innerHTML可以解析HTML标签
+        countdownElement.innerHTML = '<strong>8</strong>' // 设置文本内容为8，解析HTML标签
+
+        const personArr = [
+            { name: 'Alice', price: 100 },
+            { name: 'Bob', price: 80 },
+            { name: 'Charlie', price: 60 },
+            { name: 'David', price: 40 },
+            { name: 'Eve', price: 20 },
+            { name: 'Frank', price: 10 }
+        ]
+
+        // 显示随机三个人名和价格
+        const one = document.querySelector('#firstprice')
+        const two = document.querySelector('#secondprice')
+        const three = document.querySelector('#thirdprice')
+
+        const random1 = Math.floor(Math.random() * personArr.length) // 0-5随机数
+        // 修改DOM元素内容
+        one.innerText = personArr[random1].name + '  ' + personArr[random1].price + '$'
+        // 删除第random1个元素，避免重复
+        personArr.splice(random1, 1)
+        const random2 = Math.floor(Math.random() * personArr.length) // 0-4随机数
+        two.innerText = personArr[random2].name + '  ' + personArr[random2].price + '$'
+        // 删除第random2个元素，避免重复
+        personArr.splice(random2, 1)
+        const random3 = Math.floor(Math.random() * personArr.length) // 0-3随机数
+        three.innerText = personArr[random3].name + '  ' + personArr[random3].price + '$'
+
+        // 修改DOM元素属性 对象.属性名
+        const rollElement = document.querySelector('.roll')
+        rollElement.className = 'roll-alt' // 修改元素的class属性
+
+        // ClassList方式修改class属性
+        rollElement.classList.add('new-class') // 添加class
+        // rollElement.classList.remove('roll-alt') // 删除class
+        // rollElement.classList.toggle('roll-alt') // 切换class，有则删除 
+
+    </script>
+</body>
+
+</html>

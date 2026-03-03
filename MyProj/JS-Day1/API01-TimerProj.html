@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>轮播图练习</title>
+    <style>
+        .main {
+            width: 600px;
+            height: 450px;
+            margin: 50px auto;
+            border: 1px solid #282828;
+        }
+
+        .pic-area {
+            width: 600px;
+            height: 300px;
+            background-color: #eee;
+            /* 文字容器添加过渡：透明度0.5秒平滑变化 */
+            transition: opacity 0.5s ease;
+        }
+
+        .dot-area {
+            width: 600px;
+            height: 30px;
+            background-color: #ddd;
+            text-align: center;
+            line-height: 30px;
+        }
+
+        .info-area {
+            width: 600px;
+            height: 120px;
+            background-color: #ccc;
+            text-align: center;
+            line-height: 120px;
+            transition: opacity 0.5s ease;
+        }
+
+        .dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #5a5a5a;
+            margin: 0 10px;
+            cursor: pointer;
+            vertical-align: middle;
+            /* 圆点样式过渡：所有属性0.3秒变化（包括宽高、颜色） */
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            width: 15px;
+            height: 15px;
+            background-color: #343434;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <div class="pic-area">
+            <img src=https://picsum.photos/id/10/600/300 alt="picture">
+        </div>
+        <div class="dot-area">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+        <div class="info-area">第一张：壮丽的山间湖泊，清晨的阳光洒在水面上，波光粼粼
+        </div>
+    </div>
+    <script>
+        // 1.准备一个数组对象，里面包含详细信息
+        // 2.获取元素
+        // 3.设置定时器，每隔1秒显示一条信息
+        // 3.1 设置一个变量++
+        // 3.2 显示当前信息
+        // 3.3 激活小圆点/更改文字图片信息
+        // 4.当显示完最后一条信息时，重置变量为0，重新开始循环
+
+        const carouselData = [
+            {
+                imgUrl: "https://picsum.photos/id/10/600/300",
+                info: "第一张：壮丽的山间湖泊，清晨的阳光洒在水面上，波光粼粼"
+            },
+            {
+                imgUrl: "https://picsum.photos/id/11/600/300",
+                info: "第二张：茂密的森林，参天大树形成天然的绿色穹顶，空气清新"
+            },
+            {
+                imgUrl: "https://picsum.photos/id/12/600/300",
+                info: "第三张：宁静的海边，白色的沙滩与碧蓝的海水相映成趣"
+            },
+            {
+                imgUrl: "https://picsum.photos/id/13/600/300",
+                info: "第四张：巍峨的雪山，终年积雪覆盖，展现大自然的雄伟"
+            }
+        ];
+
+        const picArea = document.querySelector('.pic-area')
+        const dotArea = document.querySelector('.dot-area')
+        const infoArea = document.querySelector('.info-area')
+        const dots = document.querySelectorAll('.dot')
+
+        let index = 1
+        setInterval(function () {
+            // 3.2 显示当前信息
+            const currentData = carouselData[index]
+            picArea.innerHTML = `<img src=${currentData.imgUrl} alt="picture">`
+            infoArea.innerHTML = currentData.info
+
+            // 3.3 激活小圆点/更改文字图片信息
+            dots.forEach(function (dot, i) {
+                if (i === index) {
+                    dot.classList.add('active')
+                } else {
+                    dot.classList.remove('active')
+                    // document.querySelector('.dot-area .active').classList.remove('active')
+                }
+            })
+
+            // 3.1 设置一个变量++
+            index++
+            // 4.当显示完最后一条信息时，重置变量为0，重新开始循环
+            if (index === carouselData.length) {
+                index = 0
+            }
+        }, 2000)
+    </script>
+
+</body>
+
+</html>

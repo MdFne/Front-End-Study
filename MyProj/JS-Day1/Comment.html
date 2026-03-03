@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=`, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        body {
+            margin-top: 0;
+            padding-top: 100px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .main {
+            width: 500px;
+            height: 200px;
+            display: flex;
+            border: 1px solid #000000;
+            justify-content: space-evenly;
+            align-items: flex-start;
+        }
+
+        .comment {
+            width: 400px;
+            height: 100px;
+            display: flex;
+            margin-top: 60px;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        textarea {
+            width: 100%;
+            height: 40px;
+            /* 让边框/内边距包含在40px高度内 */
+            box-sizing: border-box;
+            /* 清除textarea默认边框/内边距 */
+            border: 1px solid #aaa;
+            padding: 5px;
+            /* 禁用拖拽调整大小 */
+            resize: none;
+            outline: none;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+
+        .send {
+            width: 80px;
+            height: 40px;
+            margin-top: 60px;
+            transition: all 0.3s;
+            background-color: rgb(53, 106, 219);
+            /* 和textarea边框一致 */
+            border: 1px solid #aaa;
+            /* 同样加box-sizing，防止后续加内边距撑高 */
+            box-sizing: border-box;
+            border-radius: 3px;
+        }
+
+        .main:focus-within .send {
+            height: 80px;
+        }
+
+        .main:focus-within textarea {
+            height: 80px;
+        }
+
+        button {
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            color: #ebebeb;
+        }
+
+        .total {
+            font-size: small;
+            color: #aaa;
+            position: relative;
+            right: -150px;
+            bottom: -5px;
+            opacity: 0;
+            transition: all 0.3s;
+        }
+
+        .displayarea {
+            width: 500px;
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            margin-top: 5px;
+        }
+
+        #list {
+            width: 500px;
+            height: 60px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #999999;
+            padding: 0;
+            margin-top: 10px;
+            justify-content: space-around;
+            line-height: 18px;
+            display: none;
+        }
+
+        #list h4 {
+            margin: 0;
+            padding: 0 10px;
+        }
+
+        #list p {
+            margin: 0;
+            padding: 0 10px;
+        }
+
+        #list span {
+            margin: 0;
+            padding: 0 10px;
+            font-size: 10px;
+            color: #999999;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <div class="comment">
+            <textarea name="text" id="1" placeholder="请输入内容"></textarea>
+            <span class="total">共计0/200字</span>
+        </div>
+
+        <div class="send">
+            <button>发送</button>
+        </div>
+    </div>
+
+    <div class="displayarea">
+        <div id="list">
+            <h4>A</h4>
+            <p>aaa</p>
+            <span>2026.02.23 14:23:56</span>
+        </div>
+        <div id="list">
+            <h4>A</h4>
+            <p>aaa</p>
+            <span>2026.02.23 14:23:56</span>
+        </div>
+        <div id="list">
+            <h4>A</h4>
+            <p>aaa</p>
+            <span>2026.02.23 14:23:56</span>
+        </div>
+        <div id="list">
+            <h4>A</h4>
+            <p>aaa</p>
+            <span>2026.02.23 14:23:56</span>
+        </div>
+        <div id="list">
+            <h4>A</h4>
+            <p>aaa</p>
+            <span>2026.02.23 14:23:56</span>
+        </div>
+        <div id="list">
+            <h4>A</h4>
+            <p>aaa</p>
+            <span>2026.02.23 14:23:56</span>
+        </div>
+    </div>
+
+    <script>
+        // 1. 当文本域获得焦点时，字数统计显示
+        const tx = document.querySelector('textarea')
+        const total = document.querySelector('.total')
+        const displayArea = document.querySelector('.displayarea')
+        let index = 0
+        tx.addEventListener('focus', function () {
+            total.style.opacity = 1
+        })
+        // 2. 当文本域失去焦点时，字数统计隐藏
+        tx.addEventListener('blur', function () {
+            total.style.opacity = 0
+        })
+
+        // 3. 当文本域内容发生变化时，更新字数统计
+        tx.addEventListener('input', function () {
+            const len = tx.value.length
+            total.textContent = `共计${len}/200字`
+        })
+
+        // 4. 当点击发送按钮时，弹出文本域内容
+        const btn = document.querySelector('button')
+        btn.addEventListener('click', function () {
+            e.preventDefault() // 阻止默认换行行为
+            send()
+        })
+
+        // 5. 当按下回车键时，弹出文本域内容
+        tx.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault() // 阻止默认换行行为
+                send()
+            }
+        })
+
+        function send() {
+            if (tx.value.trim() === '') {
+                alert('请输入内容')
+                return
+            }
+            alert(tx.value)
+            let item = displayArea.children[index]
+            item.querySelector('h4').textContent = 'A' + index
+            item.querySelector('p').textContent = tx.value
+            const timeString = getTime()
+            item.querySelector('span').textContent = timeString
+            index++
+            index = index % 6
+            item.style.display = 'block'
+            tx.value = ''
+            total.textContent = `共计0/200字`
+            tx.blur() // 发送后失去焦点，触发字数统计隐藏
+        }
+
+        function getTime() {
+            const now = new Date()
+            const year = now.getFullYear()
+            const month = String(now.getMonth() + 1).padStart(2, '0')
+            const day = String(now.getDate()).padStart(2, '0')
+            const hours = String(now.getHours()).padStart(2, '0')
+            const minutes = String(now.getMinutes()).padStart(2, '0')
+            const seconds = String(now.getSeconds()).padStart(2, '0')
+            return `${year}.${month}.${day} ${hours}:${minutes}:${seconds}`
+        }
+    </script>
+
+</body>
+
+</html>

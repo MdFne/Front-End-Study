@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="text" value="password">
+    <input type="checkbox" name="" id="">
+    <button>Click me</button>
+    <div data-id="122">122</div> <!--data-开头 + 自定义字符串 = 自定义属性值-->
+    <div data-id="123">123</div> <!--自定义属性值-->
+    <div data-id="124">124</div> <!--自定义属性值-->
+    <script>
+        const inputElement = document.querySelector('input')
+        console.log('Input value is: ' + inputElement.value)
+        inputElement.value = 'newpassword' // change value
+        inputElement.type = 'password' // change type to password
+
+        const input = document.querySelector('input[type="checkbox"]')
+        console.log('Checkbox checked: ' + input.checked)
+        input.checked = true // set checked to true
+        // ‘true’也可以，JS默认隐式转换所有非空字符串，只有‘’为false
+
+        const button = document.querySelector('button')
+        console.log('Button disabled: ' + button.disabled)
+        button.disabled = true // disable the button 
+
+        const div = document.querySelector('div')
+        console.log(div.dataset) // 获得所有data-属性，以对象形式返回
+        console.log('Data-id is: ' + div.dataset.id) // 获得data-id属性值
+        div.dataset.id = '456' // 修改data-id属性值
+
+    </script>
+
+</body>
+
+</html>

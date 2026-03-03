@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        const a = 10;
+        a = 20; // This will cause an error because 'a' is a constant
+        document.write('The value of a is ' + a);
+        let b = 5;
+        b = 15; // This is valid because 'b' is declared with let
+        document.write('<br>The value of b is ' + b);
+        const c = {
+            name: 'John',
+            age: 30
+        };
+        c.age = 31; // This is valid; we can modify properties of a constant object
+        document.write('<br>The value of c is ' + JSON.stringify(c));
+        const d = {
+            city: 'New York'
+        };
+        d = {
+            city: 'Los Angeles'
+        }; // This will cause an error because we are trying to reassign a constant
+        document.write('<br>The value of d is ' + JSON.stringify(d));
+    </script>
+</body>
+
+</html>

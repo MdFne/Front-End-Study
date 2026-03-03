@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let balance = 0;
+
+        while (true) {
+            let op = prompt('请输入操作类型：\n存款-1\n取款-2\n查询余额-3\n退出-4');
+            if (op === '4') {
+                alert('感谢使用ATM系统，欢迎下次光临！');
+                break;
+            }
+            switch (op) {
+                case '1':
+                    let numDeposit = parseFloat(prompt('请输入存款金额：'));
+                    if (!isNaN(numDeposit) && numDeposit > 0) {
+                        balance += numDeposit;
+                        alert('存款成功！当前余额：' + balance);
+                    } else {
+                        alert('请输入有效的存款金额！');
+                    }
+                    break;
+                case '2':
+                    let numWithdraw = parseFloat(prompt('请输入取款金额：'));
+                    if (!isNaN(numWithdraw) && numWithdraw > 0) {
+                        if (numWithdraw <= balance) {
+                            balance -= numWithdraw;
+                            alert('取款成功！当前余额：' + balance);
+                        } else {
+                            alert('余额不足，取款失败！当前余额：' + balance);
+                        }
+                    } else {
+                        alert('请输入有效的取款金额！');
+                    }
+                    break;
+                case '3':
+                    alert('当前余额：' + balance);
+                    break;
+
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>

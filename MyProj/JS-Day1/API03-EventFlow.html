@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .father {
+            width: 200px;
+            height: 200px;
+            background-color: lightblue;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .son {
+            width: 100px;
+            height: 100px;
+            background-color: lightcoral;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="father">
+        <div class="son"></div>
+    </div>
+    <script>
+        // 事件流分为捕获和冒泡，捕获阶段从document到目标元素，冒泡阶段从目标元素到document
+        // 事件监听器默认在冒泡阶段触发，可以通过第三个参数设置为true来在捕获阶段触发
+
+        // 事件捕获概念：从DOM的根元素开始执行对应的事件（从外到里）
+        // DOM.addEventListener(事件类型，事件处理函数，是否在捕获阶段触发/使用捕获机制)
+        // document.addEventListener('click', function () {
+        //     console.log('Document clicked')
+        // })
+
+        // const father = document.querySelector('.father')
+        // father.addEventListener('click', function () {
+        //     console.log('Father clicked')
+        // })
+
+        // const son = document.querySelector('.son')
+        // son.addEventListener('click', function () {
+        //     console.log('Son clicked')
+        // })
+
+        // 冒泡结果：son -> father -> document
+
+        // 捕获阶段触发
+        document.addEventListener('click', function () {
+            console.log('Document clicked')
+        }, true)
+
+        const father = document.querySelector('.father')
+        father.addEventListener('click', function () {
+            console.log('Father clicked')
+        }, true)
+
+        const son = document.querySelector('.son')
+        son.addEventListener('click', function () {
+            console.log('Son clicked')
+        }, true)
+
+        // 捕获结果：document -> father -> son
+
+    </script>
+
+</body>
+
+</html>

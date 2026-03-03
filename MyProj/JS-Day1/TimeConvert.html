@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        let seconds = +prompt('请输入要转换的秒数：')
+        function convertT(t) {
+            let hours = parseInt(t / 3600 % 24)
+            let minutes = parseInt(t / 60 % 60)
+            let secs = parseInt(t % 60)
+            hours = hours < 10 ? '0' + hours : hours
+            minutes = minutes < 10 ? '0' + minutes : minutes
+            secs = secs < 10 ? '0' + secs : secs
+            return hours + ':' + minutes + ':' + secs
+        }
+        document.write('Time is ' + convertT(seconds))
+    </script>
+</body>
+
+</html>

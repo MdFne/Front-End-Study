@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div {
+            width: 200px;
+            height: 100px;
+            background-color: lightblue;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <input type="text" placeholder="请输入内容">
+    </div>
+
+    <script>
+        const div = document.querySelector('div')
+        div.addEventListener('mouseenter', function () {
+            div.style.backgroundColor = 'lightcoral'
+        })
+        div.addEventListener('mouseleave', function () {
+            div.style.backgroundColor = 'lightblue'
+        })
+
+        const input = document.querySelector('input')
+        input.addEventListener('input', function () {
+            console.log('输入内容：' + input.value)
+        })
+    </script>
+</body>
+
+</html>

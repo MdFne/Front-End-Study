@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // setInterval(函数，间隔时间毫秒)：每隔指定时间执行一次函数
+        setInterval(function () { // 1.匿名函数
+            console.log('Timer ticked')
+        }, 1000); // 每隔1秒执行一次
+
+        function showTime() {
+            const now = new Date()
+            console.log('Current time: ' + now.toLocaleTimeString())
+        }
+
+        setInterval(showTime, 2000) // 2.调用函数，每隔2秒执行一次showTime函数
+        // !!! 函数名后面没有括号，否则会立即执行函数，而不是传递函数引用
+        // 或者这样写 setInterval('showTime()', 2000)
+        // 第一次调用会在2秒后执行而不是立即执行
+
+        // 定时器会返回一个id数字，可以用来取消定时器
+        let n = setInterval(showTime, 3000) // 每隔3秒执行一次showTime函数
+        // 一般用let声明变量n，因为后面重启时要修改它
+        console.log('Timer ID is: ' + n)
+
+        clearInterval(n) // 取消定时器，不再执行
+    </script>
+</body>
+
+</html>

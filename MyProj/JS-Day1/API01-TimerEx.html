@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .main {
+            width: 500px;
+            margin: 50px auto;
+            text-align: center;
+
+        }
+
+        .btn {
+            width: 200px;
+            margin: 20px;
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <textarea name="" id="" cols="50" rows="10">
+            Steam云存档使用指南及存档位置详解
+            在如今的游戏世界中，云存档已经成为玩家不可或缺的一项功能。它不仅能够确保我们的游戏进度和数据得到妥善保存，还能让我们在不同设备上无缝切换，继续享受游戏的乐趣。Steam作为全球最大的游戏平台之一，自然也提供了强大的云存档功能。本文将详细介绍如何在Steam上启用云存档，并找到云存档的具体位置，帮助玩家更好地管理和使用这一功能。
+            一、Steam云存档的启用方法
+            想要使用Steam的云存档功能，首先需要确保自己的Steam账号已经登录，并且Steam客户端是最新版本。接下来，按照以下步骤进行操作：
+            登录Steam账号：打开Steam客户端，输入你的账号和密码，完成登录。
+            进入设置：在Steam客户端的左上角，找到并点击“Steam”菜单，然后选择“设置”。
+            启用云服务：在设置窗口中，选择左侧的“云服务”选项。在右侧，你会看到一个名为“为支持的应用程序启用Steam云同步”的勾选框。勾选这个选项，然后点击“确定”按钮。这样，你的Steam账号就已经启用了云存档功能。
+            自动上传存档：当你游玩支持云存档的游戏时，Steam会在游戏结束时自动将你的存档上传到云端。这意味着，即使你在其他设备上登录你的Steam账号，也能随时恢复这些存档，继续游戏。
+            ————————————————
+            版权声明：本文为CSDN博主「nntxthml」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+            原文链接：https://blog.csdn.net/nntxthml/article/details/144549492
+        </textarea>
+        <br>
+        <button class="btn" disabled=true>我已阅读以上内容（5）</button>
+    </div>
+
+    <script>
+        // 1.获取按钮元素
+        const btn = document.querySelector('button')
+        // button是个双标签元素/表单，内容在标签中间用innerHTML获取而不是value
+        console.log(btn.innerHTML)
+
+        // 2.倒计时
+        let i = 5
+        // 2.1 设置定时器，每隔1秒执行一次
+        let id = setInterval(function () {
+            i--
+            btn.innerHTML = `我已阅读以上内容（${i}）`
+            // 2.2 当倒计时结束时
+            if (i === 0) {
+                btn.innerHTML = '我已阅读以上内容'
+                btn.disabled = false // 启用按钮
+                clearInterval(id) // 取消定时器
+            }
+        }, 1000)
+    </script>
+</body>
+
+</html>

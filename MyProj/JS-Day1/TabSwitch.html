@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .tab {
+            width: 600px;
+            height: 400px;
+            border: 1px solid #000000;
+            margin: 50px auto;
+        }
+
+        .tab-nav {
+            width: 600px;
+            height: 80px;
+            background-color: lightgray;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+        }
+
+        .tab-nav ul {
+            width: 300px;
+            display: flex;
+            justify-content: space-evenly;
+            list-style: none;
+        }
+
+        .tab-nav ul li a {
+            text-decoration: none;
+            color: black;
+            font-size: 16px;
+            padding: 5px 10px;
+        }
+
+        .tab-nav ul li a.active {
+            color: rgb(241, 83, 43);
+            font-weight: bold;
+            border-bottom: 2px solid rgb(241, 83, 43);
+        }
+
+        .tab-box {
+            width: 600px;
+            height: 320px;
+            border: 1px solid #5c5c5c;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .tab-item {
+            width: 580px;
+            height: 300px;
+            display: none;
+        }
+
+        .tab-item.active {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="tab">
+        <div class="tab-nav">
+            <h3>每日特价</h3>
+            <ul>
+                <li><a class="active" href="javascript:;">精选</a></li>
+                <li><a href="javascript:;">美食</a></li>
+                <li><a href="javascript:;">百货</a></li>
+                <li><a href="javascript:;">个护</a></li>
+            </ul>
+        </div>
+
+        <div class="tab-box">
+            <div class="tab-item active" style="background-color: lightblue;"></div>
+            <div class="tab-item" style="background-color: lightgreen;"></div>
+            <div class="tab-item" style="background-color: lightseagreen;"></div>
+            <div class="tab-item" style="background-color: lightcoral;"></div>
+        </div>
+    </div>
+
+    <script>
+        const navLinks = document.querySelectorAll('.tab-nav ul li a')
+        const tabItems = document.querySelectorAll('.tab-item')
+
+        navLinks.forEach((link, index) => {
+            link.addEventListener('click', function () {
+                // 1. 移除所有链接的 active 类
+                navLinks.forEach(link => link.classList.remove('active'))
+                // 2. 给当前点击的链接添加 active 类
+                this.classList.add('active')
+
+                // 3. 隐藏所有内容项
+                tabItems.forEach(item => item.classList.remove('active'))
+                // 4. 显示对应索引的内容项
+                tabItems[index].classList.add('active')
+            })
+        })
+    </script>
+</body>
+
+</html>

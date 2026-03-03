@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div> <!--标签-->>
+        <p>This is a paragraph inside a div.</p>
+    </div>
+
+    <script>
+        // document是DOM树的根节点，所有的节点都是从document开始的
+        const divElement = document.querySelector('div'); // 获取div元素->DOM对象
+        // 获取div元素下的p元素
+        const pElement = divElement.querySelector('p');
+
+        console.dir(divElement); // dir方法可以显示对象的属性和方法,log方法显示对象的字符串形式(toString)
+        console.dir(pElement);
+    </script>
+</body>
+
+</html>
