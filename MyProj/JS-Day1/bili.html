@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            /* 占满视口高度 */
+            background: transparent;
+            /* 清除html默认背景，避免覆盖body */
+            /* 让body居中（给html加flex） */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            /* 核心：裁剪背景溢出 */
+        }
+
+        /* 第二步：修正body样式 */
+        body {
+            width: 500px;
+            height: 900px;
+            border: 1px solid gray;
+            border-radius: 15px;
+            /* 圆角生效 */
+            background-color: lightgray;
+            display: flex;
+            flex-direction: column;
+            /* 移除无效的justify-self/align-self */
+            box-sizing: border-box;
+            overflow: hidden;
+            /* 核心：裁剪背景溢出 */
+        }
+
+        .header {
+            width: 500px;
+            height: 150px;
+            background-color: white;
+            box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+
+        }
+
+        .search {
+            width: 500px;
+            height: 90px;
+            background-color: lightblue;
+            opacity: 0.6;
+        }
+
+        .switch {
+            height: 55px;
+            display: flex;
+            background-color: lightyellow;
+            opacity: 0.6;
+        }
+
+        .tab {
+            width: 100px;
+            text-align: center;
+            line-height: 55px;
+            font-size: 20px;
+            font-weight: 400;
+            color: palevioletred;
+            cursor: pointer;
+        }
+
+        .tab.active {
+            font-size: 24px;
+            font-weight: 500;
+        }
+
+        .line {
+            width: 70px;
+            height: 5px;
+            background-color: palevioletred;
+            position: relative;
+            top: 0;
+            left: 15px;
+            transition: all 0.2s ease;
+        }
+
+        .main {
+            height: 650px;
+            border: 1px solid gray;
+        }
+
+        .footer {
+            height: 100px;
+            background-color: #fff;
+            box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <div class="search">
+
+        </div>
+        <div class="switch">
+            <div class="tab active">首页</div>
+            <div class="tab">动画</div>
+            <div class="tab">番剧</div>
+            <div class="tab">果蔬</div>
+            <div class="tab">音乐</div>
+        </div>
+        <div class="line"></div>
+    </div>
+
+    <div class="main">
+
+    </div>
+
+    <div class="footer">
+
+    </div>
+
+    <script>
+        const sw = document.querySelector('.switch')
+        const tabs = document.querySelectorAll('.tab')
+        const line = document.querySelector('.line')
+
+        sw.addEventListener('click', function (e) {
+            if (e.target.classList.contains('tab')) {
+                const index = [...tabs].indexOf(e.target)
+                tabs.forEach(tab => tab.classList.remove('active'))
+                e.target.classList.add('active')
+                line.style.left = 15 + index * 100 + 'px'
+                // 或者 line.style.offsetLeft = 15 + index * 100 + 'px'
+            }
+        })
+
+
+    </script>
+
+</body>
+
+</html>

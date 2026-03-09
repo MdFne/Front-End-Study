@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 获得当前日期和时间
+        const date = new Date()
+        console.log(date)
+        // 创建一个特定日期的对象
+        const date1 = new Date(2024, 5, 10) // month is 0-indexed
+        // const date1 = new Date('2024-06-10') // 也可以使用字符串格式
+        console.log(date1)
+
+        // console.log(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate())
+        // console.log(date.getDay()) // 获取星期几，0-6，0表示周日
+
+        function getMyDate() {
+            const date = new Date()
+            let y = date.getFullYear()
+            let m = date.getMonth() + 1
+            let d = date.getDate()
+            m = m < 10 ? '0' + m : m
+            d = d < 10 ? '0' + d : d
+            return `${y}-${m}-${d}`
+        }
+
+        console.log(getMyDate())
+
+        // console.log(date.getTime()) // 获取时间戳，单位是毫秒
+        // console.log(+new Date()) // 也可以使用一元加号来获取时间戳
+        // console.log(Date.now()) // 也可以使用Date.now()来获取时间戳
+        console.log('当前时间戳：' + Date.now())
+        console.log(+new Date('2026-03-05 15:00:00')) // 获取特定日期的时间戳;
+
+    </script>
+</body>
+
+</html>

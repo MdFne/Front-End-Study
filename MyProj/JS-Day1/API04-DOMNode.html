@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .grdfa {
+            width: 200px;
+            height: 200px;
+            background-color: lightcoral;
+        }
+
+        .dad {
+            width: 150px;
+            height: 150px;
+            background-color: lightblue;
+        }
+
+        .bab {
+            width: 100px;
+            height: 100px;
+            background-color: lightgreen;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="grdfa">
+        <div class="dad">
+            <div class="bab"></div>
+        </div>
+    </div>
+
+    <ul>
+        <li>Item 1</li>
+        <li>Item 2</li>
+        <li>Item 3</li>
+        <li>Item 4</li>
+    </ul>
+
+    <script>
+        const bab = document.querySelector('.bab')
+        console.log(bab)
+        console.log(bab.parentNode) // 最近一级父节点，不会获取到grdfa元素
+        // 查找是属性，不加括号
+        // console.log(bab.parentElement) // 父元素
+        console.log(bab.parentNode.parentNode); // 父节点的父节点，获取到grdfa元素
+
+        const dad = document.querySelector('.dad')
+        dad.addEventListener('click', function () {
+            this.parentNode.style.backgroundColor = 'yellow' // this指向dad元素，获取到grdfa元素
+            this.children[0].style.backgroundColor = 'orange' // children获取子元素，获取到bab元素
+            // children和childNodes的区别：children只获取元素节点，childNodes获取所有子节点（包括文本节点）
+            // children获取最近一级子元素，不会获取到文本节点
+        })
+
+        const li2 = document.querySelector('ul li:nth-child(2)')
+        console.log(li2.previousSibling) // 上一个兄弟节点，获取到文本节点
+        console.log(li2.nextSibling) // 下一个兄弟节点，获取到文本节点
+        console.log(li2.previousElementSibling) // 上一个兄弟元素，获取到li1元素
+        console.log(li2.nextElementSibling) // 下一个兄弟元素，获取到li3元素
+    </script>
+</body>
+
+</html>
