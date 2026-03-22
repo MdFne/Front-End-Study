@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学员管理系统</title>
+    <style>
+        /* 页面整体样式 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        /* 标题样式 */
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        /* 表单区域样式 */
+        .form-section {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 表单行样式 - 使用flex布局让表单项水平排列 */
+        .form-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        /* 每个表单项的样式 */
+        .form-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* 标签样式 */
+        label {
+            font-size: 14px;
+            color: #333;
+        }
+
+        /* 输入框样式 */
+        input[type="text"],
+        input[type="number"] {
+            width: 80px;
+            padding: 6px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        /* 下拉选择框样式 */
+        select {
+            width: 80px;
+            padding: 6px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            background-color: white;
+        }
+
+        /* 按钮样式 */
+        button {
+            background-color: #1e4a8e;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* 按钮悬停效果 */
+        button:hover {
+            background-color: #163a70;
+        }
+
+        /* 表格区域样式 */
+        .table-section {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 表格样式 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        /* 表头样式 */
+        thead {
+            background-color: #e6f0fa;
+        }
+
+        /* 表头单元格样式 */
+        th {
+            padding: 12px;
+            text-align: center;
+            color: #333;
+            font-weight: normal;
+            border-bottom: 2px solid #ddd;
+        }
+
+        /* 表格单元格样式 */
+        td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        /* 表格行悬停效果 */
+        tbody tr:hover {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 新增学员表单区域 -->
+    <form class="form-section" id="studentForm">
+        <h2>新增学员</h2>
+        <div class="form-row">
+            <div class="form-item">
+                <label for="name">姓名：</label>
+                <input type="text" id="name" name="name">
+            </div>
+            <div class="form-item">
+                <label for="age">年龄：</label>
+                <input type="number" id="age" name="age">
+            </div>
+            <div class="form-item">
+                <label for="gender">性别：</label>
+                <select id="gender" name="gender">
+                    <option value="男">男</option>
+                    <option value="女">女</option>
+                </select>
+            </div>
+            <div class="form-item">
+                <label for="salary">薪资：</label>
+                <input type="text" id="salary" name="salary">
+            </div>
+            <div class="form-item">
+                <label for="city">就业城市：</label>
+                <select id="city" name="city">
+                    <option value="北京">北京</option>
+                    <option value="上海">上海</option>
+                    <option value="广州">广州</option>
+                    <option value="深圳">深圳</option>
+                    <option value="杭州">杭州</option>
+                </select>
+            </div>
+            <button type="submit">录入</button>
+        </div>
+    </form>
+
+    <!-- 就业榜表格区域 -->
+    <div class="table-section">
+        <h2>就业榜</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>学号</th>
+                    <th>姓名</th>
+                    <th>年龄</th>
+                    <th>性别</th>
+                    <th>薪资</th>
+                    <th>就业城市</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 这里可以添加数据行 -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // 获取表单元素
+        const form = document.getElementById('studentForm')
+        const arr = []
+
+        // 监听表单提交事件
+        form.addEventListener('submit', function (e) {
+            // 阻止表单默认提交行为（防止页面刷新）
+            e.preventDefault()
+            // 收集表单数据
+            const name = document.getElementById('name').value
+            const age = document.getElementById('age').value
+            const gender = document.getElementById('gender').value
+            const salary = document.getElementById('salary').value
+            const city = document.getElementById('city').value
+            // 验证表单数据是否为空
+            if (!name || !age || !gender || !salary || !city) {
+                alert('请填写完整信息')
+                return
+            }
+            // 或者用属性选择器选择所有表单数据
+            // const inputs = document.querySelectorAll('input, select')
+            // 打印表单数据到控制台
+            console.log('姓名：' + name)
+            console.log('年龄：' + age)
+            console.log('性别：' + gender)
+            console.log('薪资：' + salary)
+            console.log('就业城市：' + city)
+            // 新增数据到数组
+            const obj = {
+                stuID: arr.length + 1,
+                name: name,
+                age: age,
+                gender: gender,
+                salary: salary,
+                city: city
+            }
+            // 新增数据到数组
+            arr.push(obj)
+            console.log(arr)
+            // 清空表单字段
+            this.reset()
+            // 渲染表格
+            render()
+        })
+
+        // 删除操作
+        document.querySelector('tbody').addEventListener('click', function (e) {
+            if (e.target.tagName === 'BUTTON') {
+                // 删除数组中的对应元素
+                const index = e.target.dataset.index
+                arr.splice(index, 1)
+                // 重新渲染表格
+                render()
+            }
+        })
+
+        function render() {
+            // 遍历数组，渲染到表格中
+            const tbody = document.querySelector('tbody')
+            // 清空表格内容
+            tbody.innerHTML = ''
+            for (let i = 0; i < arr.length; i++) {
+                const tr = document.createElement('tr')
+                tr.innerHTML = `
+                    <td>${arr[i].stuID}</td>
+                    <td>${arr[i].name}</td>
+                    <td>${arr[i].age}</td>
+                    <td>${arr[i].gender}</td>
+                    <td>${arr[i].salary}</td>
+                    <td>${arr[i].city}</td>
+                    <td><button data-index="${i}">删除</button></td>
+                `
+                tbody.appendChild(tr)
+            }
+        }
+    </script>
+</body>
+
+</html>

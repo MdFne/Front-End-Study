@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        // 随着互联网的快速发展,基于网页的应用越来越普遍,同时也变的越来越复杂,为了满足各种各样的需求,会经常
+        // 性在本地存储大量的数据,HTML5规范提出了相关解决方案。
+        // 1、数据存储在用户浏览器中
+        // 2、设置、读取方便、甚至页面刷新/关闭不丢失数据
+        // 3、容量较大,sessionStorage和localStorage约5M左右
+        // 4、只能存储 字 符 串 ,不 能 直接存储对象,可以将对象转换为字符串存储
+
+        // 本地存储 localStorage
+        // 作用:
+        //  可以将数据永久存储在本地(用户的电脑),除非手动删除,否则关闭页面也会存在
+        // 特性:
+        //  可以多窗口(页面)共享(同一浏览器可以共享)；以键值对的形式存储使用
+        //  语法：
+        //  localStorage.setItem('key','value');
+        //  localStorage.getItem('key');
+        //  localStorage.removeItem('key');
+        //  localStorage.clear();
+        localStorage.setItem('name', '张三')
+        console.log(localStorage.getItem('name'))
+        localStorage.removeItem('name')
+        console.log(localStorage.getItem('name'))
+
+        // sessionStorage
+        // 作用:
+        //  可以将数据存储在本地(用户的电脑),生命周期为 关闭 浏览器窗口
+        // 特性:
+        //  可以多窗口(页面)共享(同一浏览器可以共享)；以键值对的形式存储使用
+        //  语法：
+        //  与localStorage的语法相同
+        sessionStorage.setItem('name', '张三')
+        console.log(sessionStorage.getItem('name'))
+        sessionStorage.removeItem('name')
+        console.log(sessionStorage.getItem('name'))
+
+        const obj = {
+            name: '张三',
+            age: 18,
+            gender: '男'
+        }
+        // 转换为字符串存储
+        localStorage.setItem('obj', JSON.stringify(obj))
+        // 读取时需要转换为对象
+        console.log(JSON.parse(localStorage.getItem('obj')))  
+    </script>
+</body>
+
+</html>

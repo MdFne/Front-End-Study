@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            background-color: lightgray;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        form {
+            height: 500px;
+            width: 350px;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 0px;
+            border-radius: 6px;
+        }
+
+        button {
+            height: 40px;
+            width: 200px;
+            background-color: #49BA9B;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button[type=button] {
+            height: 30px;
+            width: 100px;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+
+        button[type=button].waiting {
+            background-color: #666;
+        }
+
+        .txbox {
+            height: 40px;
+            width: 300px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        label {
+            display: inline-block;
+            width: 80px;
+            height: 30px;
+            font-size: 16px;
+            text-align: center;
+            line-height: 30px;
+        }
+
+        label[for=agree] {
+            font-size: 14px;
+            color: #666;
+            width: 200px;
+        }
+
+        label[class=err] {
+            height: 10px;
+            font-size: 10px;
+            color: red;
+            width: 200px;
+            line-height: 10px;
+            margin-bottom: 10px;
+            text-align: left;
+            transform: translateX(40px);
+            opacity: 0;
+            transition: all 0.3s ease-in-out;
+        }
+
+        input {
+            width: 200px;
+            height: 30px;
+            border-radius: 5px;
+            padding: 0 5px;
+            border: 1px solid lightgray;
+        }
+
+        input.ok {
+            border: 1px solid #49BA9B;
+            box-shadow: 0 0 5px #49BA9B;
+        }
+
+        input[name=verifyCode] {
+            width: 95px;
+            margin-right: 5px;
+        }
+
+        input[type=checkbox] {
+            width: 15px;
+            height: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <form action="">
+        <div class="txbox">
+            <label for="username">用户名：</label>
+            <input type="text" id="username" name="username" placeholder="请输入用户名">
+        </div>
+        <label class="err" for="err-username">用户名不能为空</label>
+        <div class="txbox">
+            <label for="phone">手机号：</label>
+            <input type="text" id="phone" name="phone" placeholder="请输入手机号">
+        </div>
+        <label class="err" for="err-phone">手机号不能为空</label>
+        <div class="txbox">
+            <label for="verifyCode">验证码：</label>
+            <input type="text" id="verifyCode" name="verifyCode" placeholder="请输入验证码">
+            <button type="button" id="getVerifyCode">获取验证码</button>
+        </div>
+        <label class="err" for="err-verifyCode">验证码不能为空</label>
+        <div class="txbox">
+            <label for="password">密码：</label>
+            <input type="text" id="password" name="password" placeholder="请输入密码">
+        </div>
+        <label class="err" for="err-password">密码不能为空</label>
+        <div class="txbox">
+            <label for="confirmPassword">确认密码：</label>
+            <input type="text" id="confirmPassword" name="confirmPassword" placeholder="请输入确认密码">
+        </div>
+        <label class="err" for="err-confirmPassword">确认密码不能为空</label>
+        <div class="txbox">
+            <input type="checkbox" id="agree" name="agree">
+            <label for="agree">我已阅读并同意注册协议</label>
+        </div>
+        <label class="err" for="err-agree">请先同意注册协议</label>
+        <button type="submit">下一步</button>
+    </form>
+
+    <script>
+        const username = document.getElementById("username")
+        const phone = document.getElementById("phone")
+        const verifyCode = document.getElementById("verifyCode")
+        const getVerifyCodeBtn = document.getElementById("getVerifyCode")
+        const password = document.getElementById("password")
+        const confirmPassword = document.getElementById("confirmPassword")
+        const agree = document.getElementById("agree")
+
+        const form = document.querySelector("form")
+        let isAgree = false
+        let isUsernameOk = false
+        let isVerifyCodeOk = false
+        let isPhoneOk = false
+        let isPasswordOk = false
+        let isConfirmPasswordOk = false
+
+        getVerifyCodeBtn.addEventListener("click", function () {
+            getVerifyCodeBtn.classList.add("waiting")
+            getVerifyCodeBtn.innerHTML = "5秒后重新获取"
+            let t = 4
+            const timer = setInterval(function () {
+                getVerifyCodeBtn.innerHTML = `${t}秒后重新获取`
+                t--
+            }, 1000)
+            setTimeout(() => {
+                getVerifyCodeBtn.classList.remove("waiting")
+                getVerifyCodeBtn.innerHTML = "获取验证码"
+                clearInterval(timer)
+            }, 5000)
+        })
+
+        function check(e) {
+            if (e.target === username) {
+                if (username.value === "") {
+                    document.querySelector("label[for=err-username]").innerHTML = "用户名不能为空"
+                    document.querySelector("label[for=err-username]").style.opacity = 1
+                } else if (!/^[a-zA-Z0-9_]{2,16}$/.test(username.value)) {
+                    document.querySelector("label[for=err-username]").innerHTML = "用户名只能包含字母、数字和下划线，且长度在2-16个字符之间"
+                    document.querySelector("label[for=err-username]").style.opacity = 1
+                } else {
+                    document.querySelector("label[for=err-username]").style.opacity = 0
+                    document.querySelector("input[id=username]").classList.add("ok")
+                    isUsernameOk = true
+                }
+            } else if (e.target === phone) {
+                if (phone.value === "") {
+                    document.querySelector("label[for=err-phone]").innerHTML = "手机号不能为空"
+                    document.querySelector("label[for=err-phone]").style.opacity = 1
+                } else if (!/^1[3456789]\d{9}$/.test(phone.value)) {
+                    document.querySelector("label[for=err-phone]").innerHTML = "手机号格式错误"
+                    document.querySelector("label[for=err-phone]").style.opacity = 1
+                } else {
+                    document.querySelector("input[id=phone]").classList.add("ok")
+                    document.querySelector("label[for=err-phone]").style.opacity = 0
+                    isPhoneOk = true
+                }
+            } else if (e.target === verifyCode) {
+                if (verifyCode.value === "") {
+                    document.querySelector("label[for=err-verifyCode]").innerHTML = "验证码不能为空"
+                    document.querySelector("label[for=err-verifyCode]").style.opacity = 1
+                } else if (!/^\d{6}$/.test(verifyCode.value)) {
+                    document.querySelector("label[for=err-verifyCode]").innerHTML = "验证码格式错误"
+                    document.querySelector("label[for=err-verifyCode]").style.opacity = 1
+                } else {
+                    document.querySelector("input[id=verifyCode]").classList.add("ok")
+                    document.querySelector("label[for=err-verifyCode]").style.opacity = 0
+                    isVerifyCodeOk = true
+                }
+            } else if (e.target === password) {
+                if (password.value === "") {
+                    document.querySelector("label[for=err-password]").innerHTML = "密码不能为空"
+                    document.querySelector("label[for=err-password]").style.opacity = 1
+                } else if (!/^[a-zA-Z0-9_]{6,16}$/.test(password.value)) {
+                    document.querySelector("label[for=err-password]").innerHTML = "密码只能包含字母、数字和下划线，且长度在6-16个字符之间"
+                    document.querySelector("label[for=err-password]").style.opacity = 1
+                } else {
+                    document.querySelector("input[id=password]").classList.add("ok")
+                    document.querySelector("label[for=err-password]").style.opacity = 0
+                    isPasswordOk = true
+                }
+            } else if (e.target === confirmPassword) {
+                if (confirmPassword.value === "") {
+                    document.querySelector("label[for=err-confirmPassword]").innerHTML = "确认密码不能为空"
+                    document.querySelector("label[for=err-confirmPassword]").style.opacity = 1
+                } else if (password.value !== confirmPassword.value) {
+                    document.querySelector("label[for=err-confirmPassword]").innerHTML = "两次输入密码不一致"
+                    document.querySelector("label[for=err-confirmPassword]").style.opacity = 1
+                } else {
+                    document.querySelector("input[id=confirmPassword]").classList.add("ok")
+                    document.querySelector("label[for=err-confirmPassword]").style.opacity = 0
+                    isConfirmPasswordOk = true
+                }
+            }
+        }
+
+        function checkAll() {
+            if (username.value === "") {
+                document.querySelector("label[for=err-username]").innerHTML = "用户名不能为空"
+                document.querySelector("label[for=err-username]").style.opacity = 1
+            } else if (!/^[a-zA-Z0-9_]{2,16}$/.test(username.value)) {
+                document.querySelector("label[for=err-username]").innerHTML = "用户名只能包含字母、数字和下划线，且长度在2-16个字符之间"
+                document.querySelector("label[for=err-username]").style.opacity = 1
+            } else {
+                document.querySelector("label[for=err-username]").style.opacity = 0
+                document.querySelector("input[id=username]").classList.add("ok")
+                isUsernameOk = true
+            }
+            if (phone.value === "") {
+                document.querySelector("label[for=err-phone]").innerHTML = "手机号不能为空"
+                document.querySelector("label[for=err-phone]").style.opacity = 1
+            } else if (!/^1[3456789]\d{9}$/.test(phone.value)) {
+                document.querySelector("label[for=err-phone]").innerHTML = "手机号格式错误"
+                document.querySelector("label[for=err-phone]").style.opacity = 1
+            } else {
+                document.querySelector("input[id=phone]").classList.add("ok")
+                document.querySelector("label[for=err-phone]").style.opacity = 0
+                isPhoneOk = true
+            }
+            if (verifyCode.value === "") {
+                document.querySelector("label[for=err-verifyCode]").innerHTML = "验证码不能为空"
+                document.querySelector("label[for=err-verifyCode]").style.opacity = 1
+            } else if (!/^\d{6}$/.test(verifyCode.value)) {
+                document.querySelector("label[for=err-verifyCode]").innerHTML = "验证码格式错误"
+                document.querySelector("label[for=err-verifyCode]").style.opacity = 1
+            } else {
+                document.querySelector("input[id=verifyCode]").classList.add("ok")
+                document.querySelector("label[for=err-verifyCode]").style.opacity = 0
+                isVerifyCodeOk = true
+            }
+            if (password.value === "") {
+                document.querySelector("label[for=err-password]").innerHTML = "密码不能为空"
+                document.querySelector("label[for=err-password]").style.opacity = 1
+            } else if (!/^[a-zA-Z0-9_]{6,16}$/.test(password.value)) {
+                document.querySelector("label[for=err-password]").innerHTML = "密码只能包含字母、数字和下划线，且长度在6-16个字符之间"
+                document.querySelector("label[for=err-password]").style.opacity = 1
+            } else {
+                document.querySelector("input[id=password]").classList.add("ok")
+                document.querySelector("label[for=err-password]").style.opacity = 0
+                isPasswordOk = true
+            }
+            if (confirmPassword.value === "") {
+                document.querySelector("label[for=err-confirmPassword]").innerHTML = "确认密码不能为空"
+                document.querySelector("label[for=err-confirmPassword]").style.opacity = 1
+            } else if (password.value !== confirmPassword.value) {
+                document.querySelector("label[for=err-confirmPassword]").innerHTML = "两次输入密码不一致"
+                document.querySelector("label[for=err-confirmPassword]").style.opacity = 1
+            } else {
+                document.querySelector("input[id=confirmPassword]").classList.add("ok")
+                document.querySelector("label[for=err-confirmPassword]").style.opacity = 0
+                isConfirmPasswordOk = true
+            }
+            if (agree.checked) {
+                document.querySelector("label[for=err-agree]").style.opacity = 0
+                isAgree = true
+            } else {
+                document.querySelector("label[for=err-agree]").style.opacity = 1
+                isAgree = false
+            }
+        }
+
+
+        form.addEventListener("focusout", (e) => {
+            console.log(e.target)
+            check(e)
+        })
+
+        form.addEventListener("submit", function (e) {
+            e.preventDefault()
+            checkAll()
+            if (isAgree && isUsernameOk && isVerifyCodeOk && isPhoneOk && isPasswordOk && isConfirmPasswordOk) {
+                console.log("注册成功")
+                form.submit()
+                this.reset()
+            }
+        })
+    </script>
+</body>
+
+</html>

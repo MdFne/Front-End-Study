@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 对象解构是将对象属性和方法快速批量赋值给一系列变量的简洁语法
+        // 基本语法:
+        // 1. 赋值运算符=左侧的(}用于批量声明变量,右侧对象的属性值将被赋值给左侧的变量
+        // 2. 对象属性的值将被赋值给与属性名相同的变量
+        // 3.注意解构的变量名不要和外面的变量名冲突否则报错
+        // 4.对象中找不到与变量名一致的属性时变量值为 undefined
+
+        const obj = {
+            name: '张三',
+            age: 18,
+            sex: '男'
+        }
+        const { name, age, sex } = obj  // 要求变量名和属性名一致
+        console.log(name, age, sex) // 张三 18 男
+
+        // 如果要解构的变量名和属性名不一致可以使用: 原变量名:新属性名
+        const { name: n, age: a, sex: s } = obj
+        console.log(n, a, s) // 张三 18 男
+
+        // 解构数组对象
+        const pig = [
+            {
+                name: '佩奇',
+                age: 1,
+                sex: '女'
+            },
+            {
+                name: '乔治',
+                age: 2,
+                sex: '男'
+            }
+        ]
+        const [{ name: p1, age: a1, sex: s1 }, { name: p2, age: a2, sex: s2 }] = pig
+        console.log(p1, a1, s1) // 佩奇 1 女
+        console.log(p2, a2, s2) // 乔治 2 男
+
+        // 多级对象解构（嵌套解构）
+        const obj2 = {
+            name: '张三',
+            age: 18,
+            sex: '男',
+            address: {
+                city: '北京',
+                district: '东城区'
+            }
+        }
+        const { name: n2, age: a3, sex: s3,
+            address: { city: c, district: d } } = obj2  // 属性加冒号 xxx: {a, b}
+        console.log(n2, a3, s3, c, d) // 张三 18 男 北京 东城区
+
+        const farm = [
+            {
+                name: '佩奇',
+                age: 1,
+                family: {
+                    mother: '妈妈',
+                    father: '爸爸'
+                }
+            }
+        ]
+        const [{ name: pName, age: a4, family: { mother, father } }] = farm
+        console.log(pName, a4, mother, father) // 佩奇 1 妈妈 爸爸
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let arr = [1, 2, 3, 4]
+        console.log(arr)
+
+        Array.prototype.max = function () {
+            return Math.max(...this)
+        }
+
+        Array.prototype.sum = function () {
+            let res = 0
+            for (let i of this) {
+                res += i
+            }
+            return res
+        }
+
+        console.log(arr.sum())
+        console.log(arr.max());
+
+
+    </script>
+
+</body>
+
+</html>

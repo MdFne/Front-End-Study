@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="zh-CN" style="height: 100%">
+
+<head>
+  <meta charset="utf-8">
+  <style>
+    .loading-mask {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 999;
+    }
+
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #3498db;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+
+<body style="height: 100%; margin: 0">
+  <div id="container" style="height: calc(100% - 50px); margin-top: 50px"></div>
+
+  <!-- 新增操作栏 -->
+  <div style="position: absolute; top: 10px; left: 10px; display: flex; gap: 5px; align-items: center;">
+    <input type="number" id="minPop" placeholder="最小人口" style="padding: 5px; width: 100px;">
+    <input type="number" id="maxPop" placeholder="最大人口" style="padding: 5px; width: 100px;">
+    <button id="filterBtn"
+      style="padding: 5px 10px; background: #2196F3; color: white; border: none; border-radius: 4px;">筛选</button>
+  </div>
+
+  <div style="position: absolute; top: 10px; right: 10px; display: flex; gap: 5px;">
+    <button id="sortBtn"
+      style="padding: 5px 10px; background: #ff9800; color: white; border: none; border-radius: 4px;">降序排序</button>
+    <button id="themeBtn"
+      style="padding: 5px 10px; background: #673AB7; color: white; border: none; border-radius: 4px;">暗色模式</button>
+  </div>
+
+  <div style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 5px;">
+    <button id="mapBtn"
+      style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+      地图视图
+    </button>
+    <button id="barBtn"
+      style="padding: 10px 20px; background-color: #607D8B; color: white; border: none; border-radius: 4px; cursor: pointer;">
+      条形图
+    </button>
+    <button id="heatmapBtn"
+      style="padding: 10px 20px; background-color: #F44336; color: white; border: none; border-radius: 4px; cursor: pointer;">
+      热力图
+    </button>
+    <button id="flowBtn"
+      style="padding: 10px 20px; background-color: #FF5722; color: white; border: none; border-radius: 4px; cursor: pointer;">
+      流动线视图
+    </button>
+  </div>
+
+  <script type="text/javascript"
+    src="https://echarts.apache.org/zh/js/vendors/jquery@3.7.1/dist/jquery.min.js"></script>
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl@2/dist/echarts-gl.min.js"></script>
+
+  <script type="text/javascript">
+    // 初始化ECharts图表实例
+    var dom = document.getElementById('container');
+    var myChart = echarts.init(dom, null, {
+      renderer: 'canvas',
+      useDirtyRect: false
+    });
+    var app = {};
+    var ROOT_PATH = 'https://echarts.apache.org/examples';
+    var option;
+
+    // 获取DOM元素引用
+    var mapBtn = document.getElementById('mapBtn');
+    var barBtn = document.getElementById('barBtn');
+    var heatmapBtn = document.getElementById('heatmapBtn');
+    var currentView = 'map';  // map, bar, heatmap
+    var originalData = [];    // 保存原始数据副本
+    var currentData = [];     // 当前显示数据
+
+    // 区域名称中英文映射
+    const districtNames = {
+      'Central and Western': '中西区',
+      'Eastern': '东区',
+      'Southern': '南区',
+      'Wan Chai': '湾仔区',
+      'Sham Shui Po': '深水埗区',
+      'Kowloon City': '九龙城区',
+      'Kwun Tong': '观塘区',
+      'Wong Tai Sin': '黄大仙区',
+      'Yau Tsim Mong': '油尖旺区',
+      'Islands': '离岛区',
+      'Kwai Tsing': '葵青区',
+      'North': '北区',
+      'Sai Kung': '西贡区',
+      'Sha Tin': '沙田区',
+      'Tai Po': '大埔区',
+      'Tsuen Wan': '荃湾区',
+      'Tuen Mun': '屯门区',
+      'Yuen Long': '元朗区'
+    };
+
+    // 香港各行政区坐标（近似值，用于热力图）
+    const districtCoords = {
+      'Central and Western': [114.1405, 22.2789],
+      'Eastern': [114.1694, 22.2761],
+      'Southern': [114.1957, 22.2647],
+      'Wan Chai': [114.1541, 22.2740],
+      'Sham Shui Po': [114.1609, 22.3057],
+      'Kowloon City': [114.1802, 22.3092],
+      'Kwun Tong': [114.2082, 22.2957],
+      'Wong Tai Sin': [114.1886, 22.3116],
+      'Yau Tsim Mong': [114.1543, 22.3194],
+      'Islands': [113.9893, 22.1885],
+      'Kwai Tsing': [114.1342, 22.3606],
+      'North': [114.1143, 22.4705],
+      'Sai Kung': [114.2744, 22.3804],
+      'Sha Tin': [114.2043, 22.3714],
+      'Tai Po': [114.1744, 22.4313],
+      'Tsuen Wan': [114.1183, 22.3657],
+      'Tuen Mun': [113.9775, 22.3880],
+      'Yuen Long': [114.0272, 22.4328],
+      'Cheung Chau': [114.0270, 22.2096],
+      'Discovery Bay': [113.9956, 22.2988],
+      'Ma On Shan': [114.2300, 22.4230],
+      'Tai Wai': [114.1780, 22.3720],
+      'Sheung Shui': [114.1270, 22.5040],
+      'Fanling': [114.1410, 22.4920],
+      'Tseung Kwan O': [114.2646, 22.3116],
+      'Ap Lei Chau': [114.1550, 22.2350],
+      'Peng Chau': [114.0360, 22.2760],
+      'Lok Ma Chau': [114.0700, 22.5150],
+      'Shau Kei Wan': [114.2167, 22.2822],
+      'Kennedy Town': [114.1267, 22.2822],
+      'Happy Valley': [114.1822, 22.2675],
+      'Chai Wan': [114.2386, 22.2647],
+      'Lam Tin': [114.2361, 22.3081],
+      'Mei Foo': [114.1397, 22.3375],
+      'Jordan': [114.1722, 22.3061],
+      'Hung Hom': [114.1881, 22.3033],
+      'Diamond Hill': [114.2025, 22.3400],
+      'Clear Water Bay': [114.2692, 22.2972],
+      'Tai O': [113.8667, 22.2550],
+      'Tung Chung': [113.9439, 22.2892],
+      'Ngong Ping': [113.9047, 22.2558],
+      'Tsuen King Circuit': [114.1211, 22.3700],
+      'Lei Yue Mun': [114.2375, 22.2825],
+      'Lok Fu': [114.1911, 22.3375],
+      'To Kwa Wan': [114.1917, 22.3167],
+      'So Kwun Wat': [113.9692, 22.3933],
+      'Wu Kai Sha': [114.2267, 22.4281],
+      'Yau Tong': [114.2361, 22.2825]
+
+    };
+
+    // 自定义加载层
+    const loadingMask = document.createElement('div');
+    loadingMask.className = 'loading-mask';
+    loadingMask.innerHTML = `
+      <div class="loading-spinner"></div>
+      <div style="margin-top: 10px; color: #666;">数据加载中...</div>
+    `;
+    dom.appendChild(loadingMask);
+
+    const themeBtn = document.getElementById('themeBtn');
+    let isDarkMode = false;
+
+    // 更新视图按钮样式
+    function updateViewStyle() {
+      mapBtn.style.backgroundColor = currentView === 'map' ? '#4CAF50' : '#607D8B';
+      barBtn.style.backgroundColor = currentView === 'bar' ? '#4CAF50' : '#607D8B';
+      heatmapBtn.style.backgroundColor = currentView === 'heatmap' ? '#4CAF50' : '#607D8B';
+      flowBtn.style.backgroundColor = currentView === 'flow' ? '#4CAF50' : '#FF5722';
+    }
+
+    // 加载香港地图数据并初始化图表
+    $.get('HK.json', function (hkJson) {
+      dom.removeChild(loadingMask);
+      echarts.registerMap('HK', hkJson);
+
+      const flowBtn = document.getElementById('flowBtn'); //必须放里面，不然会显示未定义！！
+      flowBtn.addEventListener('click', function () {
+        currentView = 'flow';
+        updateViewStyle();
+
+        flowOption.series[0].data = generateRandomFlows();
+        myChart.setOption(flowOption, true);
+      });
+
+      // 原始人口数据
+      originalData = [
+        { name: 'Central and Western', value: 243533 },
+        { name: 'Eastern', value: 588094 },
+        { name: 'Southern', value: 274994 },
+        { name: 'Wan Chai', value: 152608 },
+        { name: 'Sham Shui Po', value: 380855 },
+        { name: 'Kowloon City', value: 377351 },
+        { name: 'Kwun Tong', value: 622152 },
+        { name: 'Wong Tai Sin', value: 423521 },
+        { name: 'Yau Tsim Mong', value: 310647 },
+        { name: 'Islands', value: 156801 },
+        { name: 'Kwai Tsing', value: 511167 },
+        { name: 'North', value: 304134 },
+        { name: 'Sai Kung', value: 448301 },
+        { name: 'Sha Tin', value: 630273 },
+        { name: 'Tai Po', value: 296853 },
+        { name: 'Tsuen Wan', value: 304637 },
+        { name: 'Tuen Mun', value: 487546 },
+        { name: 'Yuen Long', value: 578529 }
+      ];
+      currentData = [...originalData];
+
+      // 为热力图扩展数据，添加坐标和随机值
+      let extendData = [...currentData];
+      extendData = extendData.map(item => {
+        const randomValue = Math.floor(Math.random() * (650000 - 150000 + 1)) + 150000; // 随机生成 150000 到 650000 之间的整数
+        return {
+          ...item,
+          value: randomValue,
+          coords: districtCoords[item.name]
+        };
+      });
+
+
+      const totalPopulation = originalData.reduce((sum, item) => sum + item.value, 0);
+
+      // 数据排序函数（通用）
+      function sortData(isAsc) {
+        currentData.sort((a, b) => isAsc ? a.value - b.value : b.value - a.value);
+      }
+      sortData(false); // 初始降序
+
+      // 地图视图配置
+      const mapOption = {
+        title: {
+          text: '香港各行政区人口分布图 - 地图视图',
+          left: 'center',
+          textStyle: { color: '#333' }
+        },
+        visualMap: {
+          left: 'right',
+          min: 150000,
+          max: 650000,
+          inRange: {
+            color: ['#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
+          },
+          text: ['高', '低'],
+          calculable: true
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: function (params) {
+            const districtName = districtNames[params.name] || params.name;
+            const percentage = ((params.value / totalPopulation) * 100).toFixed(2);
+            const rank = currentData.length - currentData.findIndex(item => item.name === params.name);
+            return `
+              <div style="font-weight: bold;">${districtName}</div>
+              <div>人口: ${params.value.toLocaleString()}</div>
+              <div>占比: ${percentage}%</div>
+              <div>排名: ${rank}/${currentData.length}</div>
+            `;
+          }
+        },
+
+        series: [
+          {
+            id: 'population',
+            type: 'map',
+            roam: true,
+            map: 'HK',
+            animationDurationUpdate: 1200,
+            animationEasingUpdate: 'cubicOut',
+            universalTransition: true,
+            data: currentData
+          }
+        ]
+      };
+
+      // 统一控制流动线数量
+      let flowLineCount = 50;
+
+      // 生成颜色调色板
+      function generateColorPalette(baseColor, numColors) {
+        const colorStep = 200 / numColors; // 颜色变化步长
+        const palette = [];
+        for (let i = 0; i < numColors; i++) {
+          const lightness = 20 + i * colorStep; // 从较深到较浅变化
+          const color = `hsl(${baseColor}, 80%, ${lightness}%)`;
+          palette.push(color);
+        }
+        return palette;
+      }
+
+      // 生成随机人口流动线数据
+      function generateRandomFlows(numLines = flowLineCount) {
+        const districts = Object.keys(districtCoords);
+        const colorPalette = [
+          '#ff9800', '#e91e63', '#2196f3', '#4caf50', '#9c27b0',
+          '#f44336', '#00bcd4', '#8bc34a', '#ffc107', '#3f51b5',
+          '#ff5722', '#607d8b', '#cddc39', '#009688', '#795548',
+          '#673ab7', '#03a9f4', '#aed581', '#ffb300', '#d500f9'
+        ];
+        const uni_colorPalette = generateColorPalette(30, colorPalette.length);
+
+        const flows = [];
+        for (let i = 0; i < numLines; i++) {
+          let fromIdx = Math.floor(Math.random() * districts.length);
+          let toIdx;
+          let ran_wid = Math.random() * 5 + 1; // 随机线宽
+          do {
+            toIdx = Math.floor(Math.random() * districts.length);
+          } while (toIdx === fromIdx);
+          flows.push({
+            coords: [
+              districtCoords[districts[fromIdx]],
+              districtCoords[districts[toIdx]]
+            ],
+            lineStyle: {
+              //color: colorPalette[i % colorPalette.length],
+              //color:'#ffb300',
+
+              width: ran_wid,
+              color: colorPalette[i % colorPalette.length],
+              opacity: Math.random() * 0.5
+            }
+          });
+        }
+        return flows;
+      }
+
+      // 流动线视图配置
+      const flowOption = {
+        title: {
+          text: '香港地区人口流动示意',
+          left: 'center',
+          textStyle: { color: '#333' }
+        },
+        geo: {
+          map: 'HK',
+          roam: true,
+          itemStyle: {
+            areaColor: '#f5f5f5',
+            borderColor: '#999',
+            borderWidth: 1
+          },
+          emphasis: {
+            itemStyle: {
+              areaColor: '#e0e0e0'
+            }
+          }
+        },
+        series: [
+          {
+            type: 'lines',
+            coordinateSystem: 'geo',
+            zlevel: 2,
+            effect: {
+              show: true,
+              period: 6,
+              trailLength: 0.4,
+              color: '#fff',
+              symbolSize: 4
+            },
+            lineStyle: {
+              color: '#ff9800',
+              width: 2,
+              opacity: 0.8,
+              curveness: 0.2
+            },
+            data: generateRandomFlows()
+          }
+        ]
+      };
+
+      const barOption = {
+        title: {
+          text: '香港各行政区人口分布图 - 条形图视图',
+          left: 'center',
+          textStyle: { color: '#333' }
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: function (params) {
+            const districtName = districtNames[barOption.yAxis.data[params.dataIndex]] || barOption.yAxis.data[params.dataIndex];
+            const percentage = ((params.value / totalPopulation) * 100).toFixed(2);
+            const rank = currentData.length - currentData.findIndex(item => item.name === barOption.yAxis.data[params.dataIndex]);
+            return `
+              <div style="font-weight: bold;">${districtName}</div>
+              <div>人口: ${params.value.toLocaleString()}</div>
+              <div>占比: ${percentage}%</div>
+              <div>排名: ${rank}/${currentData.length}</div>
+            `;
+          }
+        },
+        xAxis: {
+          type: 'value',
+          name: '人口数量',
+          nameLocation: 'center',
+          nameGap: 30,
+          axisLabel: { color: '#333' }
+        },
+        yAxis: {
+          type: 'category',
+          axisLabel: {
+            rotate: 30,
+            formatter: value => districtNames[value] || value,
+            color: '#333'
+          },
+          data: currentData.map(item => item.name)
+        },
+        animationDurationUpdate: 1200,
+        animationEasingUpdate: 'cubicOut',
+        series: [{
+          type: 'bar',
+          id: 'population',
+          data: currentData.map(item => item.value),
+          universalTransition: true
+        }]
+      };
+
+      // 热力图视图配置
+      const heatmapOption = {
+        tooltip: {
+          trigger: 'item',
+          formatter: function (params) {
+            const districtName = districtNames[params.name] || params.name;
+            return `
+              <div style="font-weight: bold;">${districtName}</div>
+              <div>人口: ${params.value[2].toLocaleString()}</div>
+            `;
+          }
+        },
+        visualMap: {
+          min: 50000,
+          max: 650000,
+          left: 'right',
+          top: 'bottom',
+          calculable: true,
+          inRange: {
+            color: [
+              '#0d0887', // 更深的蓝
+              '#2a0593',
+              '#3b4994',
+              '#26828e',
+              '#5ec962',
+              '#fee825',
+              '#fdae61',
+              '#f46d43',
+              '#d73027',
+              '#a50026'  // 更深的红
+            ]
+          }
+        },
+        geo: {
+          map: 'HK',
+          roam: true,
+          itemStyle: {
+            areaColor: '#f5f5f5',
+            borderColor: '#999',
+            borderWidth: 1
+          },
+          emphasis: {
+            itemStyle: {
+              areaColor: '#e0e0e0'
+            }
+          }
+        },
+        series: [
+          {
+            type: 'heatmap',
+            coordinateSystem: 'geo',
+            data: extendData.map(item => {
+              return {
+                name: item.name,
+                value: [...districtCoords[item.name], item.value]
+              };
+            }),
+            pointSize: 60,
+            blurSize: 50,
+            minOpacity: 0.01,
+            maxOpacity: 1
+          }
+        ]
+      };
+
+      function getHeatmapColor(value) {
+        const min = 50000;
+        const max = 650000;
+        const range = max - min;
+        const ratio = Math.min(Math.max((value - min) / range, 0) + 0.5, 1);
+
+        // 颜色渐变：从蓝色到红色
+        const colors = [
+          '#313695', '#4575b4', '#74add1', '#abd9e9',
+          '#e0f3f8', '#ffffbf', '#fee090', '#fdae61',
+          '#f46d43', '#d73027', '#a50026'
+        ];
+
+        // 计算颜色索引
+        const colorIndex = Math.floor(ratio * (colors.length - 1)) + 1;
+        return colors[colorIndex];
+      }
+
+      myChart.setOption(mapOption);
+
+      // 地图视图按钮事件
+      mapBtn.addEventListener('click', function () {
+        currentView = 'map';
+        updateViewStyle();
+        addFlowLinesToMapOption();
+        myChart.setOption(mapOption, true);
+      });
+
+      // 条形图视图按钮事件
+      barBtn.addEventListener('click', function () {
+        currentView = 'bar';
+        updateViewStyle();
+        myChart.setOption(barOption, true);
+      });
+
+      // 热力图视图按钮事件
+      heatmapBtn.addEventListener('click', function () {
+        currentView = 'heatmap';
+        updateViewStyle();
+        myChart.setOption(heatmapOption, true);
+      });
+
+      function updateViewStyle() {
+        mapBtn.style.backgroundColor = currentView === 'map' ? '#4CAF50' : '#607D8B';
+        barBtn.style.backgroundColor = currentView === 'bar' ? '#4CAF50' : '#607D8B';
+        heatmapBtn.style.backgroundColor = currentView === 'heatmap' ? '#4CAF50' : '#607D8B';
+        flowBtn.style.backgroundColor = currentView === 'flow' ? '#4CAF50' : '#FF5722';
+      }
+
+      const filterBtn = document.getElementById('filterBtn');
+
+      // 筛选按钮事件
+      filterBtn.addEventListener('click', () => {
+        const min = parseInt(document.getElementById('minPop').value) || 0;
+        const max = parseInt(document.getElementById('maxPop').value) || Infinity;
+        currentData = originalData.filter(item => item.value >= min && item.value <= max);
+        sortData(false); // 过滤后保持降序
+        updateChart();
+      });
+
+      const sortBtn = document.getElementById('sortBtn');
+      let isAscending = false;
+
+      // 排序按钮事件
+      sortBtn.addEventListener('click', () => {
+        isAscending = !isAscending;
+        sortData(isAscending);
+        updateChart();
+        sortBtn.textContent = isAscending ? '升序排序' : '降序排序';
+      });
+
+      // 主题切换按钮事件
+      themeBtn.addEventListener('click', () => {
+        isDarkMode = !isDarkMode;
+        const textColor = isDarkMode ? '#fff' : '#333';
+        const bgColor = isDarkMode ? '#2c2c2c' : 'white';
+
+        document.body.style.backgroundColor = bgColor;
+
+        mapOption.title.textStyle.color = textColor;
+        mapOption.visualMap.inRange.color = isDarkMode
+          ? ['#1a237e', '#283593', '#303f9f', '#3949ab', '#5c6bc0', '#7986cb', '#9fa8da', '#e8eaf6']
+          : ['#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026'];
+
+        barOption.title.textStyle.color = textColor;
+        barOption.xAxis.axisLabel.color = textColor;
+        barOption.yAxis.axisLabel.color = textColor;
+
+        heatmapOption.title.textStyle.color = textColor;
+        heatmapOption.visualMap.inRange.color = isDarkMode
+          ? ['#1a237e', '#283593', '#303f9f', '#3949ab', '#5c6bc0', '#7986cb', '#9fa8da', '#e8eaf6']
+          : ['#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026'];
+
+        if (currentView === 'map') {
+          myChart.setOption(mapOption, true);
+        } else if (currentView === 'bar') {
+          myChart.setOption(barOption, true);
+        }
+        themeBtn.textContent = isDarkMode ? '亮色模式' : '暗色模式';
+
+        if (currentView === 'heatmap') {
+          myChart.setOption(heatmapOption, true);
+        }
+      });
+
+      function updateChart() {
+        mapOption.series[0].data = currentData;
+
+        barOption.yAxis.data = currentData.map(item => item.name);
+        barOption.series.data = currentData.map(item => item.value);
+
+        heatmapOption.series[0].data = currentData.map(item => {
+          return {
+            name: item.name,
+            value: [...districtCoords[item.name], item.value],
+            itemStyle: {
+              color: getHeatmapColor(item.value)
+            }
+          };
+        });
+
+        if (currentView === 'map') {
+          myChart.setOption(mapOption, true);
+        } else if (currentView === 'bar') {
+          myChart.setOption(barOption, true);
+        } else if (currentView === 'heatmap') {
+          myChart.setOption(heatmapOption, true);
+        }
+      }
+
+      // 在地图option中添加lines系列
+      function addFlowLinesToMapOption() {
+        mapOption.series = mapOption.series.filter(s => s.type !== 'lines');
+        mapOption.series.push({
+          type: 'lines',
+          coordinateSystem: 'geo',
+          zlevel: 2,
+          effect: {
+            show: true,
+            period: 6,
+            trailLength: 0.4,
+            color: '#fff',
+            symbolSize: 4
+          },
+          lineStyle: {
+            color: '#ff9800',
+            width: 2,
+            opacity: 0.8,
+            curveness: 0.2
+          },
+          data: generateRandomFlows() // 不用写数字!
+        });
+      }
+
+      mapBtn.addEventListener('click', function () {
+        currentView = 'map';
+        updateViewStyle();
+        addFlowLinesToMapOption();
+        myChart.setOption(mapOption, true);
+      });
+    });
+
+    window.addEventListener('resize', myChart.resize);
+  </script>
+</body>
+
+</html>

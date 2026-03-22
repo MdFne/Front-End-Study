@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 传统方式很麻烦：数组有3个元素，要分别赋值给3个变量
+        // const arr = [100, 60, 80]
+        // const max = arr[0]
+        // const min = arr[1]
+        // const avg = arr[2]
+        // console.log(max)    //最大值 100
+        // console.log(min)    // 最小值 60
+        // console.log(avg)    //最小值 80
+
+        // 数组解构是将数组的单元值快速批量赋值给一系列变量的简洁语法。
+        // 基本语法:
+        // 1. 赋值运算符 = 左侧的[]用于批量声明变量, 右侧数组的单元值将被赋值给左侧的变量
+        // 2.变量的顺序对应数组单元值的位置依次进行赋值操作
+
+        //普通的数组
+        const arr = [100, 60, 80]
+        // 批量声明变量a b c
+        // 同时将数组单元值 1 2 3 依次赋值给变量a b c
+        const [max, min, avg] = arr
+        // const [max, min, avg] = [100, 60, 80] 
+        console.log(max) // 100
+        console.log(min) // 60
+        console.log(avg) // 80
+
+        let a = 100
+        let b = 200;  // 必须要加分号
+        // 立即执行函数之间也要加分号，数组结构前如果有其他代码也要加；
+        // 如果没有分号程序会把数组和前面代码拼接起来当一行处理
+        [a, b] = [b, a]
+        console.log(a) // 200
+        console.log(b) // 100
+
+        // 特殊情况：
+        // 变量的数量大于数组单元值的数量
+        const [max1, min1, avg1, other] = arr
+        console.log(max1) // 100
+        console.log(min1) // 60
+        console.log(avg1) // 80
+        console.log(other) // undefined
+        // 防止undefined的情况：
+        // 可以给变量设置默认值，当数组单元值为undefined时，使用默认值
+        const [max5 = 0, min5 = 0, avg5 = 0, other5 = 0] = arr
+        console.log(max5) // 100
+        console.log(min5) // 60
+        console.log(avg5) // 80
+        console.log(other5) // 当且仅当为undefined时，使用默认值，为0
+
+        // 变量的数量小于数组单元值的数量
+        const [max2, min2] = arr
+        console.log(max2) // 100
+        console.log(min2) // 60
+        const [max3, , avg3] = arr // 忽略第2个元素
+        console.log(max3) // 100
+        console.log(avg3) // 80
+        const [max4, min4, ...rest] = arr // 剩余元素赋值给rest数组,只能放在最后
+        console.log(max4) // 100
+        console.log(min4) // 60
+        console.log(rest) // [80]
+
+        // 数组解构支持多维数组
+        const arr2 = [100, 60, 80, [100, 60, 80]]
+        const [a1, b1, c1, d1] = arr2
+        console.log(a1) // 100
+        console.log(b1) // 60
+        console.log(c1) // 80
+        console.log(d1) // [100, 60, 80]
+        // 可以继续解构d1
+        const [d11, d12, d13] = d1
+        console.log(d11) // 100
+        console.log(d12) // 60
+        console.log(d13) // 80
+
+        // 或者 const arr2 = [a1,b1,c1,[d11,d12,d13]]
+    </script>
+</body>
+
+</html>

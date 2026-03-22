@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .list {
+            width: 800px;
+            height: 500px;
+            border: 1px solid #000;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .good {
+            width: 200px;
+            height: 250px;
+            /* border: 1px solid #000; */
+            margin: 0px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .good:hover {
+            transform: translate(0px, -10px);
+
+            p {
+                font-weight: bold;
+            }
+        }
+
+        .good * {
+            margin: 0px;
+        }
+
+        .good img {
+            width: 150px;
+            height: 150px;
+        }
+
+        .good p {
+            width: 150px;
+
+            text-align: center;
+        }
+
+        .good .name {
+            height: 50px;
+            font-size: 16px;
+        }
+
+        .good .price {
+            height: 20px;
+            font-size: 14px;
+            color: gray;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="list">
+        <!-- <div class="good">
+            <img src="" alt="img">
+            <p class="name">1111</p>
+            <p class="price">11111</p>
+        </div> -->
+    </div>
+
+    <script>
+        const goodsList = [
+            {
+                id: '4001172',
+                name: '称心如意手摇咖啡磨豆机咖啡豆研磨机',
+                price: '289.00',
+                picture: 'https://yanxuan-item.nosdn.127.net/84a59ff9c58a77032564e61f716846d6.jpg',
+            },
+            {
+                id: '4001594',
+                name: '日式黑陶功夫茶组双侧把茶具礼盒装',
+                price: '288.00',
+                picture: 'https://yanxuan-item.nosdn.127.net/3346b7b92f9563c7a7e24c7ead883f18.jpg',
+            },
+            {
+                id: '4001009',
+                name: '竹制干泡茶盘正方形沥水茶台品茶盘',
+                price: '288.00',
+                picture: 'https://yanxuan-item.nosdn.127.net/3346b7b92f9563c7a7e24c7ead883f18.jpg',
+            },
+            {
+                id: '4001010',
+                name: '竹制干泡茶盘正方形沥水茶台品茶盘',
+                price: '288.00',
+                picture: 'https://yanxuan-item.nosdn.127.net/3346b7b92f9563c7a7e24c7ead883f18.jpg',
+            },
+            {
+                id: '4001011',
+                name: '竹制干泡茶盘正方形沥水茶台品茶盘',
+                price: '288.00',
+                picture: 'https://yanxuan-item.nosdn.127.net/3346b7b92f9563c7a7e24c7ead883f18.jpg',
+            },
+            {
+                id: '4001012',
+                name: '竹制干泡茶盘正方形沥水茶台品茶盘',
+                price: '288.00',
+                picture: 'https://yanxuan-item.nosdn.127.net/3346b7b92f9563c7a7e24c7ead883f18.jpg',
+            },
+            {
+                id: '4001013',
+                name: '竹制干泡茶盘正方形沥水茶台品茶盘',
+                price: '288.00',
+                picture: 'https://yanxuan-item.nosdn.127.net/3346b7b92f9563c7a7e24c7ead883f18.jpg',
+            },
+            {
+                id: '4001014',
+                name: '竹制干泡茶盘正方形沥水茶台品茶盘',
+                price: '288.00',
+                picture: 'https://yanxuan-item.nosdn.127.net/3346b7b92f9563c7a7e24c7ead883f18.jpg',
+            },
+        ]
+
+        let arr = ''
+        goodsList.forEach(item => {
+            const { id, name, price, picture } = item
+            arr += `
+            <div class="good">
+                <img src="${picture}" alt="img">
+                <p class="name">${name}</p>
+                <p class="price">${price + '元'}</p>
+            </div>
+            `
+        })
+        document.querySelector('.list').innerHTML = arr
+    </script>
+</body>
+
+</html>

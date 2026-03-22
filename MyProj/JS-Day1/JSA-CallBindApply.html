@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <button>发送短信</button>
+
+    <script>
+        const obj = {
+            uname: 'pink'
+        }
+        function fn(x, y) {
+            console.log(this, x + y) // window
+        }
+        // 1. 调用函数
+        // 2. 改变this指向
+        fn.call(obj, 1, 2)  // call第一个参数改变this指向，后面的参数传参
+        fn.apply(obj, [1, 2]) // 必须以数组传入参数
+        // 3. 返回值就是函数的返回值
+
+        // Apply可以求数组最大值：Math.max()
+        const max = Math.max.apply(null, [1, 2, 3, 5, 3])    // this指向可以写空或者Math
+
+        // bind()方法不会调用函数。但是能改变函数内部this指向
+        // 语法:
+        // thisArg:在fun函数运行时指定的this值
+        // arg1,arg2:传递的其他参数
+        // 返回由指定的this值和初始化参数改造的原函数拷贝(新函数)
+        // 因此当我们只是想改变this指向,并且不想调用这个函数的时候,可以使用bind改变定时器内部this指向.
+        const foo = fn.bind(obj)
+        foo()
+
+        const btn = document.querySelector('button')
+        btn.addEventListener('click', function () {
+            this.disabled = true
+            window.setTimeout(function () {
+                this.disabled = false
+            }.bind(btn), 2000)
+        })
+    </script>
+</body>
+
+</html>

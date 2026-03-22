@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        const obj = {
+            name: 'Allie',
+            age: 12,
+            family: {
+                baby: 'Bove'
+            }
+        }
+        const A = obj
+        const B = A // 直接复制的方法会直接把地址赋值给B
+        // B.age = 20  // 会导致A，B同时被修改
+        console.log(A, B)
+
+        // {...obj}：浅拷贝，拷贝的是地址，不会影响源对象
+        const o = { ...A }
+        o.age = 20
+        console.log(o, A)
+
+        const o1 = {}
+        Object.assign(o1, A)
+        o1.age = 20
+        console.log(o1, A)
+
+        // 拷贝数组用concat或[...arr]
+        // 但是遇到内层对象（如family时）还是会把指针指向源对象的内部对象，导致和赋值一样的问题
+
+
+        // 深拷贝：递归方式、lodash库、JSON.Stringfy()
+        const o2 = {}
+        // 手写深拷贝
+        function deepCopy(newO, oldO) {
+            // 简单类型直接拷贝
+            for (let k in oldO) {
+                if (oldO[k] instanceof Object) {
+                    // console.log(1)
+                    newO[k] = {}
+                    deepCopy(newO[k], oldO[k])
+                } else if (oldO[k] instanceof Array) {
+                    // console.log(1)
+                    newO[k] = []
+                    deepCopy(newO[k], oldO[k])
+                } else {
+                    newO[k] = oldO[k]
+                }
+            }
+        }
+        deepCopy(o2, A)
+        o2.age = 30
+        o2.family.baby = 'Char'
+        console.log(o2, A)
+
+        // js库lodash中有Clone和cloneDeep
+        // const o = _.cloneDeep(obj)
+
+        // Stringfy()方法先把对象引用类型转换为字符串简单类型
+        // 再用parse()转换回对象(创建了一个新的变量)
+        const o3 = JSON.parse(JSON.stringify(A))
+
+
+    </script>
+</body>
+
+</html>

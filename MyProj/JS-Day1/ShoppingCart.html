@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .main {
+            width: 1000px;
+            min-height: 300px;
+            max-height: 700px;
+            /* overflow: scroll; */
+            box-shadow: 0;
+            box-shadow: 0px 0px 8px gray;
+            border-radius: 5px;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .list {
+            width: 100%;
+            min-height: 260px;
+            border: 1px solid gray;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .goods {
+            width: 100%;
+            height: 180px;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            /* border: 1px solid; */
+        }
+
+        .content {
+            width: 30%;
+            height: 80%;
+            /* background-color: lightgrey; */
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content h3 {
+            margin: 0;
+            margin-left: 10px;
+        }
+
+        .info {
+            height: 80%;
+            width: 20%;
+            /* background-color: lightgrey; */
+        }
+
+        .info {
+            font-size: medium;
+            font-weight: bold;
+            color: gray;
+        }
+
+        img {
+            width: 20%;
+            height: 80%;
+        }
+
+        .content h2 {
+            font-weight: bold;
+            margin: 0px;
+        }
+
+        .gift {
+            width: 70%;
+            height: 50%;
+            background-color: #fff;
+            font-size: medium;
+            color: gray;
+            margin-left: 10px;
+        }
+
+        .price {
+            width: 10%;
+            height: 80%;
+            /* background-color: lightgrey; */
+            font-size: large;
+            font-weight: bold;
+            color: crimson;
+        }
+
+        .quant {
+            width: 5%;
+            height: 80%;
+            /* background-color: lightgrey; */
+            font-size: medium;
+            color: gray;
+        }
+
+        .sum {
+            width: 10%;
+            height: 80%;
+            /* background-color: lightgrey; */
+            font-size: large;
+            font-weight: bold;
+            color: crimson;
+        }
+
+        .total {
+            width: 100%;
+            height: 40px;
+            /* border: 1px solid gray; */
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
+        }
+
+        .common {
+            font-size: medium;
+            margin: 5px 0px;
+            align-self: center;
+        }
+
+        .num {
+            font-size: large;
+            color: crimson;
+            font-weight: bold;
+            margin: 5px 10px;
+            align-self: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <div class="list">
+            <div class="goods">
+                <img src="https://img95.699pic.com/photo/60070/9917.jpg_wh860.jpg" alt="">
+                <div class="content">
+                    <h2>111</h2>
+                    <div class="gift">
+
+                    </div>
+                </div>
+                <div class="info">
+
+                </div>
+                <div class="price">
+
+                </div>
+                <div class="quant">
+
+                </div>
+                <div class="sum">
+
+                </div>
+            </div>
+        </div>
+        <div class="total">
+            <span class="common">合计：</span>
+            <span class="num">11</span>
+        </div>
+    </div>
+
+    <script>
+        const goodsList = [
+            {
+                id: '4001172',
+                name: '称心如意手摇咖啡磨豆机咖啡豆研磨机',
+                price: 289.9,
+                color: 'lightgreen',
+                count: 2,
+                spec: { color: '白色' }
+            },
+            {
+                id: '4001009',
+                name: '竹制干泡茶盘正方形沥水茶台品茶盘',
+                price: 109.8,
+                color: 'lightblue',
+                count: 3,
+                spec: { size: '40cm*40cm', color: '黑色' }
+
+            },
+            {
+                id: '4001874',
+                name: '古法温酒汝瓷酒具套装白酒杯莲花温酒器',
+                price: 488,
+                color: 'lightyellow',
+                count: 1,
+                spec: { size: '大号', color: '绿色' },
+                gift: '50g茶叶,清洗球'
+            }
+        ]
+
+        let temp = ''
+        let tot = 0
+
+        goodsList.forEach((good) => {
+            temp += `
+                <div class="goods">
+                    <img src="https://img95.699pic.com/photo/60070/9917.jpg_wh860.jpg" alt="">
+                    <div class="content">
+                        <h3>${good.name}</h3>
+                        <div class="gift">
+                            ${good.gift ?
+                    good.gift.split(',').map((g) => { return '【赠品】' + g }).join('<br>')
+                    : '无赠品'}
+                        </div>
+                    </div>
+                    <div class="info">
+                        ${Object.values(good.spec).join('/')}
+                    </div>
+                    <div class="price">
+                        ${good.price.toFixed(2)}
+                    </div>
+                    <div class="quant">
+                        ${'x' + good.count}
+                    </div>
+                    <div class="sum">
+                        ${(good.price * good.count).toFixed(2)}
+                    </div>
+                </div>`
+            tot += good.price * good.count
+        })
+
+        console.log(temp)
+
+        document.querySelector('.list').innerHTML = temp
+        document.querySelector('.num').innerHTML = '￥' + tot.toFixed(2)
+
+
+    </script>
+
+</body>
+
+</html>

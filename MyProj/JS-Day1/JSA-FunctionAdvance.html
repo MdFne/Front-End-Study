@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 1. 函数提升
+        // 函数提升会将函数提升到作用域的顶部,可以在函数声明之前调用函数
+        console.log(foo()) // 100
+        function foo() {
+            return 100
+        }
+
+        // fn() // 报错，fn is not a function
+        var fn = function () {  // 本质上是变量提升,变量提升会将变量提升到作用域的顶部
+            console.log(100)
+        }
+        // 函数提升能够使函数的声明调用更灵活
+        // 函数表达式不存在提升的现象
+        // 函数提升出现在相同作用域当中
+
+        // 2. 函数参数
+        // 2.1 形参：函数定义时的参数
+        // 2.2 实参：函数调用时的参数
+        function bar(a, b) {
+            console.log(a, b)
+        }
+        bar(10, 20) // 10 20
+
+        // 2.3 动态参数
+        // 函数可以接收任意数量的参数
+        // arguments 是函数内部内置的伪数组变量,它包含了调用函数时传入的所有实参
+        function baz() {
+            console.log(arguments)  // 可以用for循环遍历arguments
+        }
+        baz(10, 20, 30) // [10, 20, 30]
+
+        // 2.4 剩余参数
+        // 剩余参数允许我们将一个不定数量的参数表示为一个数组（真数组，可以使用pop，push等）
+        // ...是语法符号,置于最末函数形参之前,用于获取多余的实参
+        function bar2(a, b, ...args) {  // 至少要有2个参数
+            console.log(a, b, args)
+        }
+        bar2(10, 20, 30, 40, 50) // 10 20 [30, 40, 50]
+
+        // 箭头函数没有arguments对象、this对象，提倡使用剩余参数
+
+        // 展开运算符
+        // 展开运算符(...),将一个数组进行展开
+        const arr = [1, 5, 3, 8, 2]
+        console.log(...arr) // 1 5 3 8 2
+        // 说明:
+        // 1.不会修改原数组
+        // 2.典型应用：合并数组，求数组的最大值、最小值
+        const arr1 = [1, 5, 3, 8, 2]
+        const arr2 = [10, 20, 30, 40, 50]
+        const newArr = [...arr1, ...arr2]
+        console.log(newArr) // [1, 5, 3, 8, 2, 10, 20, 30, 40, 50]
+        console.log(Math.max(...arr1)) // 8
+        console.log(Math.min(...arr1)) // 1
+
+    </script>
+</body>
+
+</html>

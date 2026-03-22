@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .main {
+            width: 900px;
+            height: 250px;
+            box-shadow: 0;
+            box-shadow: 0px 0px 8px gray;
+            border-radius: 5px;
+
+            display: flex;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .content {
+            width: 55%;
+            height: 90%;
+            background-color: lightblue;
+            box-sizing: border-box;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-right: 10px;
+        }
+
+        .info {
+            height: 90%;
+            flex: 1;
+            background-color: lightgrey;
+            box-sizing: border-box;
+            padding: 10px;
+        }
+
+        .info div {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 10px;
+        }
+
+        img {
+            width: 25%;
+            height: 90%;
+            margin-right: 10px;
+        }
+
+        .content h2 {
+            font-weight: bold;
+            margin: 10px;
+        }
+
+        .gift {
+            width: 40%;
+            height: 50%;
+            background-color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <img src="https://img95.699pic.com/photo/60070/9917.jpg_wh860.jpg" alt="">
+        <div class="content">
+            <h2>111</h2>
+            <div class="gift">
+
+            </div>
+        </div>
+        <div class="info">
+
+        </div>
+    </div>
+
+    <script>
+
+        let data = {
+            id: '4001649',
+            name: '大师监制龙泉青瓷茶叶罐',
+            price: 139,
+            picture: 'https://yanxuan-item.nosdn.127.net/4356c9fc150753775fe56b465314fleb.png',
+            count: 1,
+            spec: {
+                size: '小号', color: '紫色'
+            },
+            gift: '50g茶叶,清洗球'
+        }
+
+        let name = data.name
+        let gifts = data.gift.split(',')
+        let infos = []
+        for (let ele in data.spec) {
+            infos.push(data.spec[ele])
+        }
+        console.log(name, gifts, infos)
+
+        const header = document.querySelector('.content h2')
+        const gifter = document.querySelector('.gift')
+        const infoer = document.querySelector('.info')
+        header.innerHTML = name
+        gifts.forEach((e) => {
+            gifter.innerHTML += ('【赠品】' + e + '<br>')
+        })
+        const i = document.createElement('div')
+        i.innerHTML = infos.join('/')
+        infoer.appendChild(i)
+
+
+
+    </script>
+
+</body>
+
+</html>

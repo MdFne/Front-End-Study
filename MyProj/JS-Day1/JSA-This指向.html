@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 普通函数的调用方式决定了this的值,即【谁调用this的值指向谁】
+        // 普通函数没有明确调用者时this值为window,严格模式下没有调用者时this的值为undefined
+        console.log(this) // window
+        function fn() {
+            console.log(this)  // window
+        }
+        // setTimeout/setInterval   // this
+        // 'use strict'开启严格模式，this->undefined
+
+        document.querySelector('button').addEventListener('click', () => {
+            console.log(this)  // 指向button
+        })
+
+        const obj = {
+            sayHi: function () {
+                console.log(this) //指向 obj
+            }
+        }
+        obi.savHi()
+
+        // 箭头函数中的this与普通函数完全不同,也不受调用方式的影响,事实上箭头函数中并不存在this
+        // 1. 箭头函数会默认帮我们绑定外层this的值,所以在箭头函数中this的值和外层的this是一样的
+        // 2.箭头函数中的this引用的就是最近作用域中的this
+        // 3.向外层作用域中,一层一层查找this,直到有this的定义
+
+        // 注意情况1:
+        // 在开发中【使用箭头函数前需要考虑函数中this的值】,事件回调函数使用箭头函数时,this为全局的window
+        // 因此DOM事件回调函数如果里面需要DOM对象的this,则不推荐使用箭头函数
+        // 注意情况2:
+        // 同样由于箭头函数this的原因,基于原型的面向对象也不推荐采用箭头函数
+
+    </script>
+
+</body>
+
+</html>
