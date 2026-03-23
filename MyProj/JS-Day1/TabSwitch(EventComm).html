@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .tab {
+            width: 600px;
+            height: 400px;
+            border: 1px solid #000000;
+            margin: 50px auto;
+        }
+
+        .tab-nav {
+            width: 600px;
+            height: 80px;
+            background-color: lightgray;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+        }
+
+        .tab-nav ul {
+            width: 300px;
+            display: flex;
+            justify-content: space-evenly;
+            list-style: none;
+        }
+
+        .tab-nav ul li a {
+            text-decoration: none;
+            color: black;
+            font-size: 16px;
+            padding: 5px 10px;
+        }
+
+        .tab-nav ul li a.active {
+            color: rgb(241, 83, 43);
+            font-weight: bold;
+            border-bottom: 2px solid rgb(241, 83, 43);
+        }
+
+        .tab-box {
+            width: 600px;
+            height: 320px;
+            border: 1px solid #5c5c5c;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .tab-item {
+            width: 580px;
+            height: 300px;
+            display: none;
+        }
+
+        .tab-item.active {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="tab">
+        <div class="tab-nav">
+            <h3>每日特价</h3>
+            <ul>
+                <li><a class="active" href="javascript:;" data-id="0">精选</a></li>
+                <li><a href="javascript:;" data-id="1">美食</a></li>
+                <li><a href="javascript:;" data-id="2">百货</a></li>
+                <li><a href="javascript:;" data-id="3">个护</a></li>
+            </ul>
+        </div>
+
+        <div class="tab-box">
+            <div class="tab-item active" style="background-color: lightblue;"></div>
+            <div class="tab-item" style="background-color: lightgreen;"></div>
+            <div class="tab-item" style="background-color: lightseagreen;"></div>
+            <div class="tab-item" style="background-color: lightcoral;"></div>
+        </div>
+    </div>
+
+    <script>
+        // 采取事件委托方式
+        // 1. 获取ul父元素，只有一个
+        const ul = document.querySelector('.tab-nav ul')
+        // 2. 添加事件
+        ul.addEventListener('click', function (e) {
+            console.log(e.target)
+            // 只有点击<a>才会进行操作
+            if(e.target.tagName === 'A') {
+                // 先移除激活栏状态
+                document.querySelector('.tab-nav .active').classList.remove('active')
+                // 当前元素添加激活状态，不能用this
+                e.target.classList.add('active')
+                // 接下来用自定义属性选择展示颜色
+                const id = Number(e.target.dataset.id)
+                document.querySelector('.tab-box .active').classList.remove('active')
+                document.querySelector(`.tab-box .tab-item:nth-child(${id+1})`).classList.add('active')
+            }
+        })
+    </script>
+</body>
+
+</html>

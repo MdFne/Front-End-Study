@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .main {
+            width: 200px;
+            height: 200px;
+            background-color: lightblue;
+            margin: 100px;
+        }
+        
+        p {
+            height: 100px;
+            width: 100px;
+            background-color: #fff;
+            margin: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <p>sonething</p>
+    </div>
+
+    <script>
+        const div = document.querySelector('.main')
+        const p = document.querySelector('p')
+        // offsetWidth/offsetHeight：元素的宽高（包含padding和border）
+        // offsetLeft/offsetTop：元素相对于其offsetParent(有定位的祖先元素)的左上角的距离
+        console.log(div.offsetWidth, div.offsetHeight) // 200 200
+        console.log(div.offsetLeft, div.offsetTop) // 100 100;
+
+        console.log(p.offsetLeft, p.offsetTop) 
+        // 如果给div main设置了position:relative; 
+        // 则p的offsetLeft和offsetTop是相对于div的，否则是相对于body的
+    </script>
+</body>
+</html>

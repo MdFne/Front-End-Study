@@ -46,26 +46,41 @@
         // son.addEventListener('click', function () {
         //     console.log('Son clicked')
         // })
-
         // 冒泡结果：son -> father -> document
 
         // 捕获阶段触发
+        // document.addEventListener('click', function () {
+        //     console.log('Document clicked')
+        // }, true)
+
+        // const father = document.querySelector('.father')
+        // father.addEventListener('click', function () {
+        //     console.log('Father clicked')
+        // }, true)
+
+        // const son = document.querySelector('.son')
+        // son.addEventListener('click', function () {
+        //     console.log('Son clicked')
+        // }, true)
+        // 捕获结果：document -> father -> son
+
+        // 事件冒泡和捕获的顺序：先捕获后冒泡
+        // 使用事件对象.stopPropagation()方法可以阻止事件继续传播
+        // 无论是在捕获阶段还是冒泡阶段调用都会阻止后续的事件触发
         document.addEventListener('click', function () {
             console.log('Document clicked')
-        }, true)
+        })
 
         const father = document.querySelector('.father')
         father.addEventListener('click', function () {
             console.log('Father clicked')
-        }, true)
+        })
 
         const son = document.querySelector('.son')
-        son.addEventListener('click', function () {
+        son.addEventListener('click', function (e) {
             console.log('Son clicked')
-        }, true)
-
-        // 捕获结果：document -> father -> son
-
+            e.stopPropagation() // 阻止事件继续传播
+        })
     </script>
 
 </body>
