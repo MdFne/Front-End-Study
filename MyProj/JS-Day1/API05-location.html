@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            width: 300px;
+            height: 300px;
+            background-color: lightblue;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #btn {
+            width: 150px;
+            height: 50px;
+        }
+
+        form {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <button id="btn">点击跳转</button>
+        <form action="">
+            <input type="text" id="username">
+            <input type="password" id="password">
+            <button id="submit">提交</button>
+        </form>
+        <a href="#/my">我的</a>
+        <a href="#/home">首页</a>
+        <a href="#/about">关于</a>
+    </div>
+    <script>
+        // location.href 可以获取当前页面的URL, location是window的属性
+        console.log(location.href)
+        // 结果：file:///d%3A/headfirst-h5c3-Github/MyProj/JS-Day1/API05-location.html
+        // 1. href 可以设置当前页面的URL
+        // location.href = 'https://www.baidu.com'
+        // 2. reload 可以重新加载当前页面
+        // location.reload()
+        const btn = document.getElementById('btn')
+        btn.addEventListener('click', function () {
+            btn.innerHTML = '5s后跳转...'
+            let count = 4
+            let timer1 = setInterval(function () {
+                btn.innerHTML = count + 's后跳转...'
+                count--
+            }, 1000)
+            setTimeout(function () {
+                clearInterval(timer1)
+                btn.innerHTML = '跳转'
+                location.href = 'https://www.baidu.com'
+            }, 5000)
+        })
+
+        // location.search 可以获取URL中的查询字符串
+        console.log(location.search)
+        // 结果：?username=admin&password=123456
+
+        // hash 可以获取URL中的哈希值(#后面的内容，使用于单页面应用SPA )
+        console.log(location.hash)
+
+        // reload 可以重新加载当前页面
+        // location.reload()
+        // 可以添加一个参数true，强制重新加载；即不从缓存中加载，直接从服务器获取最新的页面
+        // location.reload(true)
+    </script>
+</body>
+
+</html>

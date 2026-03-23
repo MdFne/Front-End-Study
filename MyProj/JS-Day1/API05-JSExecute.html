@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        console.log(111)
+        setTimeout(function () {
+            console.log(222)
+        }, 1000)
+        console.log(333)
+        // 结果 111 333 222
+
+        console.log(444)
+        setTimeout(function () {
+            console.log(555)
+        }, 0)
+        console.log(666)
+        // 结果：444 666 555
+
+        // JS是单线程，只能同时执行一个任务
+        // 多核创建多线程，JS可以利用多核优势，提高性能，存在同步和异步任务
+        // 同步任务：立即执行，按顺序执行；在主线程执行，形成执行栈。
+        // 异步任务：不立即执行，等待其他任务执行完毕后再执行；
+        // 异步任务包括：定时器、事件监听、AJAX请求、Promise、async/await等。
+        // 异步任务执行完毕后，会将回调函数添加到 任务队列 中，等待主线程执行栈 清空后再执行。
+        // 事件循环：
+        // 事件循环是JS的一种机制，用于处理异步任务。
+        // 事件循环会不断地检查任务队列，将队列中的任务添加到执行栈中执行。
+        // 事件循环会在执行栈为空时，检查任务队列是否为空。
+        // 如果任务队列不为空，会将队列中的第一个任务添加到执行栈中执行。
+        // 如果任务队列为空，会等待新的任务添加到队列中。
+    </script>
+</body>
+
+</html>

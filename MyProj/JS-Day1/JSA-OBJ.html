@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 创建对象三种方式
+        // 1. 利用对象字面量创建对象
+        const o = {
+            name: '佩奇'
+        }
+
+        // 2. 利用new Object 创建对象
+        const o1 = new Object({ name: '佩奇' })
+        console.log(o1) // {name:'佩奇'}
+
+        // 3. 利用构造函数创建对象
+        // 构造函数:是一种特殊的函数,主要用来初始化对象
+        // 使用场景:常规的{ .. }语法允许创建一个对象。比如我们创建了佩奇的对象,继续创建乔治的对象还需要重新写一
+        // 遍,此时可以通过构造函数来快速创建多个类似的对象。
+        function Person(name) {
+            this.name = name    // this指向的是新创建的对象
+        }
+        const p1 = new Person('佩奇')
+        console.log(p1) // Person {name: '佩奇'}
+        // 构造函数有两个约定
+        // 1. 函数名称首字母要大写
+        // 2. 只能用new来调用
+
+        // 说明:
+        // 1. 使用new关键字调用函数的行为被称为 实 例 化
+        // 2. 实例化构造函数时没有参数时可以省略()
+        // 3. 构造函数内部无需写return, 返回值即为新创建的对象
+        // 4. 构造函数内部的return返回的值无效, 所以不要写return
+        // 5. new Object() new Date()也是实例化构造函数
+
+        // 调用时：
+        // 1. 创建新对象
+        // 2. 构造函数this指向新对象
+        // 3. 执行构造函数代码,修改this,添加新的属性
+        // 4. 返回新对象
+
+        // 实例成员：通过构造函数创建的对象称为实例对象,实例对象中的属性和方法称为实例成员(实例属性和实例方法)
+        // 说明:
+        // 1. 为构造函数传入参数,创建结构相同但值不同的对象
+        // 2. 构造函数创建的实例对象彼此独立互不影响      
+        function Pig(name) {
+            this.name = name
+        }
+        const peiqi = new Pig('佩奇')
+        const qiaozhi = new Pig('3Fifi')
+        console.log(peiqi)
+        console.log(qiaozhi)
+        console.log(peiqi === qiaozhi) // false，两个对象是独立的，互不影响（此处是地址不同）
+        peiqi.say = function () {
+            console.log('我是' + this.name)
+        }
+        peiqi.say() // 我是佩奇
+        // qiaozhi.say() // 报错，qiaozhi没有say方法
+
+        // 静态成员：在构造函数本身上添加的属性和方法,称为静态成员(静态属性和静态方法)
+        // 说明:
+        // 1. 静态成员只能通过构造函数来访问,不能通过实例对象来访问
+        // 2. 静态成员的this指向构造函数本身
+        Pig.age = 18    // 静态属性
+        Pig.sayAge = function () {  // 静态方法
+            console.log('我是' + this.age)
+        }
+        console.log(Pig.age) // 18
+        function Person(name, age) {
+            this.name = name
+            this.age = age
+            this.alive = true // 实例属性不是静态属性
+        }
+        console.log(new Person('佩奇', 18)) // Person {name: '佩奇', age: 18, alive: true}
+
+        // 本质上动态和静态看的是属性会不会因为多个不同对象的不同而不同，
+        // 如果会不同，那么就称其为动态属性，否则就称其为静态属性
+
+        // 内置构造函数: Object Array String Number
+        // 在JavaScript 中最主要的数据类型有6种:
+        // 基本数据类型:
+        // > 字符串、数值、布尔、undefined、null
+        // 引用类型:
+        // > 对象
+
+        // 但是,我们会发现有些特殊情况:
+        // 普通字符串也有属性方法(.length, .toFixed(2))
+        const str = 'andy'
+        console.log(str.length) // 4
+        // 等于 const str = new String('andy')
+
+        // 其实字符串、数值、布尔、等基本类型也都有专门的构造函数,这些我们称为包装类型。
+        // JS中几乎所有的数据都可以基于构成函数创建。
+
+        // 引用类型
+        // Object, Array, RegExp,Date 等
+        // 包装类型
+        // String, Number,Boolean 等
+
+        // 学习三个常用静态方法(静态方法就是只有构造函数Object可以调用的)
+
+        // 作用:Object.keys静态方法获取对象中所有属性(键)
+        // 传统写法：for(let key in obj) { log(key),log(obj[key])}
+        // 语法:
+        const o3 = {
+            name: '佩奇', age: 6
+        }
+        // 获得对象的所有键,并且返回是一个数组
+        const arr = Object.keys(o3)
+        const values = Object.values(o3)
+        console.log(arr) // ['name', 'age']
+        console.log(values) // ['佩奇', 6]  
+        // 注意:返回的是一个数组
+
+        // 作用:Object.assign 静态方法常用于对象拷贝
+        // 语法:
+        // 拷贝对象 把 o 拷贝给 obj
+        const o4 = {
+            name: '佩奇', age: 6
+        }
+        const obj = {}
+        Object.assign(obj, o4) // 给obj添加o4的属性
+        // Object.assign(obj, {name:'3Fifi'}) // 给obj添加name属性
+        console.log(obj) // {name:'佩奇',age:6}
+
+    </script>
+</body>
+
+</html>

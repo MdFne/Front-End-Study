@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 变量提升
+        console.log(a) // undefined
+        var a = 10  // 变量提升,var声明的变量会提升到作用域的顶部,但是赋值不会提升
+        // const和let声明的变量不会提升,在声明之前访问会报错
+        console.log(a) // 10
+
+        // 变量提升出现在相同作用域中,变量提升会将变量提升到作用域的顶部
+        function foo() {
+            console.log(num)
+            var num = 100
+        }
+        foo() // undefined
+    </script>
+</body>
+
+</html>

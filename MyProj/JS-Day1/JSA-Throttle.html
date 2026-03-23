@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            width: 200px;
+            height: 200px;
+            background-color: lightblue;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box"></div>
+
+    <script>
+        // 节流:单位时间内,频繁触发事件,只执行一次
+        // 如果存在开销较大操作,大量数据处理,大量dom操作,可能会卡
+        // 要求:鼠标在盒子上移动,不管移动多少次,每隔500ms才+1
+
+        const box = document.querySelector('.box')
+        let i = 1
+        function mouseMove() {
+            box.innerHTML = i++
+        }
+        // box.addEventListener('mousemove', mouseMove)
+
+        // 1. lodash节流函数
+        // _.throttle(fun, time)
+
+        // 2. 手写
+        // 核心思路:
+        // 节流的核心就是利用定时器(setTimeout)来实现
+        // 2.1:声明一个定时器变量
+        // 2.2:当鼠标每次滑动都先判断是否有定时器了,如果有定时器则不开启
+        // 2.3:如果没有定时器则开启定时器,记得存到变量里面
+        //    -定时器里面调用执行的函数
+        //    -定时器里面要把定时器清空
+        function throttle(fn, t) {
+            let timer = null
+            return function () {
+                if (!timer) {
+                    timer = setTimeout(() => {
+                        fn()
+                        // 清空定时器
+                        // 不能使用clearTimer，必须使用null
+                        // 在定时器运作期间（定时器函数内部）无法清除定时器
+                        timer = null
+                    }, t)
+                }
+            }
+        }
+        box.addEventListener('mousemove', throttle(mouseMove, 500))
+
+        /* // 不用setTimeout的方法
+        function throttle(fn, delay) {
+            let lastTime = 0
+            return function () {
+                const _this = this
+                const args = arguments
+                const currentTime = Date.now()
+                if (currentTime - lastTime > delay) {
+                    fn.apply(_this, args)
+                    lastTime = currentTime
+                }
+            }
+        }
+        let fn = (e, data) => { console.log(e, e.offsetX, e.offsetY, data) }
+        let throttleFn = throttle(fn, 2000)
+        document.onmousemove = function (e) {
+            throttleFn(e, 'throttle')
+        }
+        */
+
+        // 性能优化     说明                                        使用场景
+        // 防抖       单位时间内, 频繁触发事件, 只执行最后一次    搜索框搜索输入、手机号、邮箱验证输入检测
+        // 节流       单位时间内, 频繁触发事件, 只执行一次        高频事件: 鼠标移动mousemove、页面尺寸缩放resize、滚动条滚动scroll 等等
+
+    </script>
+</body>
+
+</html>

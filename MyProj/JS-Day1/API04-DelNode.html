@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <ul>
+        <li>Item 1</li>
+        <li>Item 2</li>
+        <li>Item 3</li>
+    </ul>
+
+    <script>
+        const ul = document.querySelector('ul')
+        // 1.removeChild()方法用于从一个节点的子节点列表中删除一个子节点，参数是要删除的子节点
+        ul.removeChild(ul.children[1]) // 删除ul的第二个子节点，即删除li2元素
+        // 结果：ul中只有Item 1和Item 3两个li元素
+        // 元素页面也看不到li2元素了，区别于display:none;隐藏元素，removeChild方法是直接从DOM树中删除元素
+        // 无法再访问被删除的元素，而display:none;只是隐藏元素，元素仍然存在于DOM树中，可以通过JavaScript访问和操作被隐藏的元素
+    </script>
+</body>
+
+</html>

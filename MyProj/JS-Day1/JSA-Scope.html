@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 局部作用域分为函数作用域和块作用域。
+        // 1. 函数作用域: 在函数内部声明的变量只能在函数内部被访问,外部无法直接访问。
+        function test() {
+            let a = 10
+            console.log(a)
+        }
+        test()
+        console.log(a) // 报错,无法访问函数内部的变量
+
+        // 2.块作用域: 在JavaScript中使用{}包裹的代码称为代码块,代码块内部声明的变量外部将有可能无法被访问。
+        // 2.1 let声明的变量会产生块作用域,var不会产生块作用域
+        // 2.2 const声明的常量也会产生块作用域
+        // 2.3 不同代码块之间的变量无法互相访问
+        // 2.4 推荐使用 let或 const
+        for (let i = 0; i < 10; i++) {
+            console.log(i)
+        }
+        console.log(i) // 报错,无法访问for循环内部的变量
+        for (var j = 0; j < 10; j++) {
+            console.log(j)
+        }
+        console.log(j) // 可以访问for循环内部的变量
+
+        // 3. 全局作用域: 在全局作用域中声明的变量,可以在全局任何地方被访问。
+        // <script>标签和.js文件的【最外层】就是所谓的全局作用域,在此声明的变量在函数内部也可以被访问。
+        // 3.1 全局作用域中声明的变量,任何其它作用域都可以被访问
+        let a = 100
+        function test() {
+            console.log(a)
+        }
+        test() // 100
+        console.log(a) // 100
+        // 1.为window 对象动态添加的属性默认也是全局的,不推荐
+        // 2.函数中未使用任何关键字声明的变量为全局变量,不推荐
+        function test2() {
+            b = 200
+        }
+        test2()
+        console.log(b) // 200
+        // 3.尽可能少的声明全局变量,防止全局变量被污染
+
+        // eg
+        // 全局作用域
+        let c = 1
+        let b = 2
+        // 局部作用域
+        function f() {
+            let c = 1
+            // 局部作用域
+            function g() {
+                c = 2
+                console.log(c)
+                g()// 调用g
+            }
+        }
+        f() // 调用f
+        // 结果为2
+
+        // 作用域链本质上是底层的 变 量 查 找 机制。
+        // 在函数被执行时,会优先查找当前函数作用域中查找变量
+        // 如果当前作用域查找不到则会依次逐级（类似冒泡）查找父级作用域直到全局作用域
+        // 1.嵌套关系的作用域串联起来形成了作用域链
+        // 2.相同作用域链中按着从小到大的规则查找变量
+        // 3. 子作用域能够访问父作用域,父级作用域无法访问子级作用域
+
+
+    </script>
+</body>
+
+</html>

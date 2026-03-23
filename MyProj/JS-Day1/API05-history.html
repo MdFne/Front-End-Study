@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>这是history页面</h1>
+    <button id="backBtn">返回上一页</button>
+    <button id="forwardBtn">前进一页</button>
+    <button id="goBtn">跳转至指定页面</button>
+
+    <script>
+        const backBtn = document.getElementById('backBtn')
+        const forwardBtn = document.getElementById('forwardBtn')
+        const goBtn = document.getElementById('goBtn')
+
+        // 点击返回上一页按钮
+        backBtn.addEventListener('click', function () {
+            history.back()
+        })
+
+        // 点击前进一页按钮
+        forwardBtn.addEventListener('click', function () {
+            history.forward()
+        })
+
+        // 点击跳转至指定页面按钮
+        goBtn.addEventListener('click', function () {
+            history.go(-1)
+            // history.go(1) 前进一页
+            // history.go(0) 刷新当前页面
+            // history.go(-1) 返回上一页
+            // history.go(-2) 返回上一页的上一页
+        })
+    </script>
+
+</body>
+
+</html>

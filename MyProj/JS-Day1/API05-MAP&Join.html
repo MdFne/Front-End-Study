@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // foreach 方法
+        // 作用：对数组中的每个元素进行操作，没有返回值
+        // 不会改变原数组
+        // obj.forEach(function (ele, index) { })
+        // const arr = ['red', 'blue', 'green']
+        // arr.forEach(function (ele, index) {
+        //     console.log(ele)// 数组元素
+        //     console.log(index)//数组索引号
+        // })
+
+        // MAP 方法
+        // 作用：对数组中的每个元素进行操作，返回一个 新 数 组, 与forEach方法不同，foreach没有返回值
+        // 不会改变原数组，
+        // obj.map(function (ele, index) { })
+        const arr = ['red', 'blue', 'green']
+        const newArr = arr.map(function (ele, index) {
+            console.log(ele)// 数组元素
+            console.log(index)//数组索引号
+            return ele + '颜色'
+        })
+        console.log(newArr)
+        // ['red颜色', 'blue颜色', 'green颜色']
+
+        // JOIN 方法
+        // 作用：将数组中的元素用指定的分隔符连接起来，返回一个字符串
+        // 不会改变原数组
+        // obj.join('分隔符') / 小括号为空则逗号分隔，‘’则无分隔符
+        const str = newArr.join('|')
+        console.log(str)
+        // red颜色|blue颜色|green颜色
+    </script>
+</body>
+
+</html>

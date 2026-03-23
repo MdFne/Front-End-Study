@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        // 检测 userAgent(浏览器信息)
+        !(function () {
+            const userAgent = navigator.userAgent
+            // 验证是否为Android或iPhone
+            const android = userAgent.match(/(Android) ;? [\s\/]+([\d.]+)?/)
+            const iphone = userAgent.match(/(iPhone\sOS)\s([\d_]+)/)
+            // 如果是Android或iPhone,则跳转至移动站点
+            if (android || iphone) {
+                location.href = 'http://m.itcast.cn'
+            }
+        })()
+
+        // 关于立即执行函数
+        // (function() { })() 立即执行函数，不会污染全局变量
+        // !function() { } () 前面的 ! 是为了将函数转换为表达式，避免语法错误，也可以是+/~
+    </script>
+</head>
+
+<body>
+    这是PC端页面
+</body>
+
+</html>

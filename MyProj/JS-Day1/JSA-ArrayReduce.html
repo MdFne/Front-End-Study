@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 方法          作用       说明
+        // forEach      遍历数组    不返回数组, 经常用于查找遍历数组元素
+        // filter       过滤数组    返回新数组, 返回的是筛选满足条件的数组元素
+        // map          迭代数组    返回新数组, 返回的是处理之后的数组元素, 想要使用返回的新数组
+        // reduce       累计器      返回累计处理的结果, 经常用于求和等
+
+        // 作用:reduce 返回累计处理的结果,经常用于求和等
+        // 原理：
+        // 1. 如果没有起始值,则上一次值以数组的第一个数组元素的值
+        // 2. 每一次循环,把返回值给做为 下一次循环的上一次值
+        // 3. 如果有越始值,则起始值做为上一次值
+        // 基本语法:
+        arr.reduce(function () { }, 起始值)
+        arr.reduce(function (上一次值, 当前值) { }, 初始值)
+
+        const arr = [1, 2, 3, 4]
+        // 1. 没有初始值
+        const res1 = arr.reduce(function (pre, cur) {
+            return pre + cur
+        })
+        console.log(res1) // 10
+
+        // 2. 有初始值
+        const res2 = arr.reduce(function (pre, cur) {
+            return pre + cur
+        }, 10)
+        console.log(res2) // 20
+
+        // const res3 = arr.reduce((pre, cur) => pre + cur, 10)
+        // console.log(res3) // 20
+
+        const data = [
+            {
+                name: '张三',
+                salary: 10000
+            },
+            {
+                name: '李四',
+                salary: 20000
+            },
+            {
+                name: '王五',
+                salary: 30000
+            }
+        ]
+        const total = data.reduce((pre, cur) => pre + cur.salary, 0) 
+        // 无初始值默认获取到对象为初始值，需要指定初始值为0
+        console.log(total) // 60000
+
+
+
+    </script>
+</body>
+
+</html>

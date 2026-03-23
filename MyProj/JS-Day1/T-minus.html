@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .main {
+            width: 300px;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            background-color: rgb(161, 25, 25);
+            margin-top: 20%;
+        }
+
+        p {
+            color: aliceblue;
+        }
+
+        .date {
+            width: 300px;
+            height: 60px;
+            text-align: center;
+            line-height: 80px;
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .title {
+            height: 100px;
+            text-align: center;
+            line-height: 100px;
+            margin: 0;
+            font-size: 40px;
+        }
+
+        .t {
+            width: 200px;
+            height: 130px;
+            display: flex;
+            list-style: none;
+            justify-content: space-evenly;
+            align-items: center;
+            color: aliceblue;
+            padding: 0;
+            text-align: center;
+            line-height: 60px;
+            font-size: 30px;
+            margin: 0;
+        }
+
+        .interval {
+            font-size: 30px;
+            line-height: 60px;
+        }
+
+        .bg {
+            width: 50px;
+            height: 60px;
+            background-color: rgb(45, 45, 45);
+            border-radius: 3px;
+        }
+
+        .time {
+            flex-grow: 1;
+            font-size: 25px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <p class="date">今天是----年-月-日</p>
+        <p class="title">下班倒计时</p>
+        <ul class="t">
+            <li class="bg">--</li>
+            <li class="interval">:</li>
+            <li class="bg">--</li>
+            <li class="interval">:</li>
+            <li class="bg">--</li>
+        </ul>
+        <p class="time">18:30:00下课</p>
+    </div>
+
+    <script>
+        const bgs = document.querySelectorAll('.bg')
+        const date = document.querySelector('.date')
+        const dt = new Date()
+        date.innerHTML = `今天是${dt.getFullYear()}年${dt.getMonth() + 1}月${dt.getDate()}日`
+        setInterval(function () {
+            const timenow = +new Date()
+            const alarm = +new Date('2036-3-5 18:30:00')
+            // console.log(timenow + alarm);
+            let seconds_count = (alarm - timenow) / 1000 % 86400
+            // console.log(seconds_count);
+            const h = parseInt(seconds_count / 3600)
+            const m = parseInt(seconds_count / 60 % 60)
+            const s = parseInt(seconds_count % 60)
+            // console.log(' ' + h + m + s);
+            bgs[0].innerHTML = h < 10 ? '0' + h : h
+            bgs[1].innerHTML = m < 10 ? '0' + m : m
+            bgs[2].innerHTML = s < 10 ? '0' + s : s
+        }, 1000)
+    </script>
+</body>
+
+</html>

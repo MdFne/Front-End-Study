@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 1.5闭包
+        // 概念:一个函数对周围状态的引用捆绑在一起,内层函数中访问到其外层函数的作用域
+        // 简单理解:闭包=内层函数+外层函数的变量
+        // function fn() {
+        //     let a = 10
+        //     function fn1() {
+        //         console.log(a) // 内层用到了外层的变量a
+        //     }
+        //     fn1()
+        // }
+        // fn() // 内层函数fn1加外层函数fn的变量a,形成了闭包
+
+        // 常见的闭包形式：外部可以访问使用函数内部的变量
+        function outer() {
+            let a = 10
+            function inner() {
+                console.log(a)
+            }
+            return inner
+        }
+        // 外面调用outer函数,返回了inner函数,赋值给innerFn,可以使用内部的变量a
+        let innerFn = outer()
+        innerFn() // 10
+
+        outer()() // 10.这种调用方式也可以访问到内部的变量a
+
+        // 闭包应用：数据私有
+        // 例如：计数器（传统方法在外面声明全局变量count容易被修改）
+        function counter() {
+            let count = 0 // 私有变量count,只能在counter函数内部访问
+            function inner() {
+                count++
+                console.log(count)
+            }
+            return inner
+        }
+        let counterFn = counter() // 每次调用counter函数,返回的都是一个新的inner函数,每个inner函数都有自己的count变量
+        // counterFn指向inner函数,每次调用counterFn,都是在调用inner函数，count不会被重置也不会被销毁
+        counterFn() // 1
+        counterFn() // 2
+        // 可能会造成内存泄漏问题
+        // 例如：定时器函数中使用了闭包,定时器函数执行完毕后,闭包中的变量count不会被销毁
+        function timer() {
+            let count = 0
+            setInterval(() => {
+                count++
+                console.log(count)
+            }, 1000)
+        }
+        timer()
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+        }
+
+        .search {
+            width: 100%;
+            height: 100px;
+            background-color: coral;
+            position: fixed;
+            z-index: 1;
+            top: -100px;
+            left: 0;
+            transition: all 0.5s ease;
+        }
+
+        .main {
+            width: 80%;
+            height: 2000px;
+            background-color: lightblue;
+        }
+
+        .sale {
+            width: 200px;
+            height: 200px;
+            background-color: lightsalmon;
+            position: relative;
+            top: 30%;
+            font-size: 68px;
+            text-align: center;
+            line-height: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="search">
+        🔍
+    </div>
+
+    <div class="main">
+        <div class="sale">
+            秒杀好价
+        </div>
+
+    </div>
+
+    <script>
+        const sale = document.querySelector('.sale')
+        const sc = document.querySelector('.search')
+        window.addEventListener('scroll', function () {
+            sc.style.top = window.scrollY > 100 ? '0' : '-100px'
+            // sc.style.top = document.documentElement.scrollTop > 100 ? '0' : '-100px'
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 箭头函数(重要)
+        // 目的:引入箭头函数的目的是更简短的函数写法并且不绑定this,箭头函数的语法比函数表达式更简洁
+        // 使用场景:箭头函数更适用于那些本来需要 匿 名 函 数 的地方
+        // ---------------------------------------------------------------------------- //
+        // 1. 基本语法
+        // 普通函数
+        const fn = function () {
+            console.log('hello arrow function')
+        }
+        // 箭头函数
+
+        const fn1 = (x) => {
+            console.log('hello arrow function', x)
+        }
+        fn1(100)
+
+        // 只有一个参数时，可以省略小括号（无参数不能省略）
+        const fn2 = x => {
+            console.log('hello arrow function', x)
+        }
+        fn2(200)
+
+        // 只有一行代码时，可以省略大括号
+        const fn3 = x => console.log('hello arrow function', x)
+        fn3(300)
+
+        // 可以省略return关键字，箭头函数会自动返回值
+        const fn4 = x => x * x
+        console.log(fn4(5))
+
+        // eg: form.addEventListener('submit', e => e.preventDefault())
+        // 阻止表单提交默认行为
+
+        // 可以直接返回一个对象
+        const fn5 = x => ({ name: x })
+        console.log(fn5('张三'))
+        // { name: '张三' }
+
+        // ---------------------------------------------------------------------------- //
+        // 2. 箭头函数参数
+        // 箭头函数没有arguments对象，但是可以使用剩余参数语法...args来获取所有参数
+        const getSum = (...args) => {
+            let sum = 0
+            for (let i = 0; i < args.length; i++) {
+                sum += args[i]
+            }
+            return sum
+        }
+        console.log(getSum(1, 2, 3, 4, 5)) // 15
+
+        // ---------------------------------------------------------------------------- //
+        // 3. 箭头函数this
+        // 在箭头函数出现之前,每一个新函数根据它是被如何调用的来定义这个函数的this值,非常令人讨厌。
+        console.log(this) // window
+        function fn6() {
+            console.log(this) // window
+        }
+        window.fn6() // window
+
+        const obj1 = {
+            name: '张三',
+            sayName: function () {
+                console.log(this.name) // 张三
+            }
+        }
+        obj1.sayName() // 张三  
+
+        // 以上为传统，以下为箭头函数
+        // 箭头函数不会创建自己的this,它只会从自己的作用域链的上一层沿用this。
+        const fn7 = () => {
+            console.log(this) // window
+        }
+        fn7() // window
+
+        // 对象方法里的箭头函数this指向window，而不是对象(obj不创建作用域，一直往上查找，找到window)
+        const obj2 = {
+            name: '张三',
+            sayName: () => {
+                console.log(this.name) // window
+            }
+        }
+        obj2.sayName() // window
+
+        const obj3 = {
+            name: '张三',
+            sayName: function () {
+                let i = 0
+                const fn8 = () => {
+                    console.log(this) // 找上一层函数的this，指向obj
+                }
+                fn8()
+            }
+        }
+        obj3.sayName() // obj
+
+        // DOM事件处理函数中使用箭头函数，this指向window，回调函数不推荐使用箭头函数
+        document.getElementById('btn').addEventListener('click', () => {
+            console.log(this) // window
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <script>
+
+        // ● BOM(Browser Object Model)是浏览器对象模型
+        //                  window
+        // navigator  location  document  history  screen
+
+        // ● window对象是一个全局对象,也可以说是JavaScript中的顶级对象
+        // ● 像document、alert()、console.log()这些都是window的属性,基本BOM的属性和方法都是window的。
+        // ● 所有通过var定义在全局作用域中的变量、函数都会变成window对象的属性和方法
+        // ● window对象下的属性和方法调用的时候可以省略window
+
+        // document.querySelector()
+        // window. document.querySelector()
+        console.log(document === window.document)
+        function fn() {
+            console.log(11)
+        }
+        window.fn()
+        var num = 10
+        // 但是const定义的变量不是window对象的属性（作用域不同），只有var和let定义的变量才是
+        console.log(window.num)
+
+        // ● 定时器也是window对象的方法
+        // setTimeout(回调函数，延时时间) 延时时间单位是毫秒
+        // 与setInterval()方法不同的是，setTimeout()方法只执行一次回调函数，随后就会清除定时器
+        let timer = setTimeout(function () {
+            console.log(111)
+        }, 1000)
+        // 清除定时器
+        clearTimeout(timer)
+        // 延时函数返回的是一个定时器ID
+        console.log(timer)
+
+    </script>
+
+</body>
+
+</html>

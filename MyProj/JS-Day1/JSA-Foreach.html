@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // forEach()方法用于调用数组的每个元素,并将元素传递给回调函数
+        // 主要使用场景:遍历数组的每个元素
+        // 语法:
+        // 被遍历的数组.forEach(function(当前数组元素,当前元素索引号){
+        //      // 函数体
+        // })
+
+        const arr = [1, 2, 3, 4, 5]
+        const res = arr.forEach(function (item, index) {    // 当前元素必写，索引号可选
+            console.log(item, index)
+        })
+        console.log(res)    // undefined,forEach()方法没有返回值，与map()方法不同
+
+        // 使用箭头函数
+        arr.forEach((item, index) => {
+            console.log(item, index)
+        })
+    </script>
+</body>
+
+</html>
