@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 创建一个 Promise
+        const p = new Promise((resolve, reject) => {
+            // 模拟异步操作
+            setTimeout(() => {
+                const ok = Math.random();
+                if (ok > 0.5) {
+                    resolve('成功结果');   // 让 Promise 变为 fulfilled
+                } else {
+                    reject('失败原因');    // 让 Promise 变为 rejected
+                }
+            }, 1000);
+        });
+
+        // 使用 Promise
+        p.then(result => {
+            console.log('成功：', result);
+            console.log(p);
+        }, result => {
+            console.log('失败', result)
+        }).catch(error => {
+            console.error('失败：', error);
+        });
+
+        console.log(p);
+
+        // async function run() {
+        //     try {
+        //         const data = await fetchData();
+        //         const result = await processData(data);
+        //         console.log(result);
+        //     } catch (err) {
+        //         console.error(err);
+        //     }
+        // }
+
+    </script>
+</body>
+
+</html>
