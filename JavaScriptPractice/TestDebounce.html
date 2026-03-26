@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .box {
+            width: 200px;
+            height: 200px;
+            background-color: lightblue;
+            display: flex;
+            justify-content: center;
+        }
+
+        p {
+            color: black
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <p>0</p>
+    </div>
+
+    <script src="Debounce.js"></script>
+    <script>
+        const box = document.querySelector('.box')
+        const p = document.querySelector('p')
+
+        function mouseMove() {
+            p.innerHTML -= -1
+        }
+
+        box.addEventListener('mousemove', debounce(mouseMove, 200))
+    </script>
+
+</body>
+
+</html>
