@@ -12,9 +12,19 @@
 <script setup name="App">
 	// Suspense组件用于处理异步组件的加载状态，当异步组件加载完成时，会显示默认内容，否则显示fallback内容
 	// 当异步组件加载完成时，会将默认内容替换为异步组件的内容
-	import { Suspense } from 'vue'
+	import { Suspense, reactive, watch } from 'vue'
 	import Child from './Child.vue'
 
+	let x = reactive({y:{count:0}})
+	setInterval(()=>{
+		x.y.count++
+	}, 2000)
+
+	// watch(obj,callback)第一个参数直接写响应式对象默认深度监听，写成()=>{x}就听不到了
+	watch(x,()=>{
+		console.log(11);
+		
+	})
 </script>
 
 <style scoped>
