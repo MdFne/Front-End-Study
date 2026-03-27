@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function observe(data) {
+            if (!data || typeof data !== 'object') return;
+
+            Object.keys(data).forEach(key => {
+                let value = data[key];
+                observe(value); // 递归子属性
+
+                Object.defineProperty(data, key, {
+                    enumerable: true,
+                    configurable: true,
+                    get() {
+                        console.log(`获取 ${key}: ${value}`);
+                        return value;
+                    },
+                    set(newVal) {
+                        console.log(`设置 ${key}: ${newVal}`);
+                        if (value !== newVal) {
+                            value = newVal;
+                            observe(newVal); // 新值是对象时继续监听
+                        }
+                    }
+                });
+            });
+        }
+
+        const data = { name: '张三', info: { age: 20 } };
+        observe(data);
+
+        data.name; // 获取 name: 张三
+        data.info.age = 21; // 获取 info: [object Object] (注意：无法直接监听嵌套属性变化)
+
+    </script>
+</body>
+
+</html>
