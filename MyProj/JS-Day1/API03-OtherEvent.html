@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <script>
+        // 1. 页面加载事件
+        // 加载外部资源，加载完毕时触发的事件，事件名：load
+        // 通常会在head中，直接找dom元素找不到
+        // 监听页面所有资源加载完毕，再执行回调函数：给window增加load事件
+        window.addEventListener('load',function() {
+            const btn = document.querySelector('button')
+            btn.addEventListener('click', function() {
+                alert('clicked')
+            })
+        })
+        // window是整个外页面加载资源，也可以针对某个特定资源绑定load
+
+        // 只等待DOM元素加载完毕即可，无需等待样式表和图像等
+        document.addEventListener('DOMContentLoaded', function() {
+            const btn = document.querySelector('button')
+            btn.addEventListener('click', function() {
+                alert(11)
+            })
+        })
+    </script> -->
+    <style>
+        body {
+            height: 3000px;
+        }
+        div {
+            margin: 100px;
+            width: 200px;
+            height: 200px;
+            border: 1px solid;
+            overflow: scroll;
+        }
+    </style>
+</head>
+
+<body>
+    <button>ClickMe</button>
+    <div>
+        SomethingInThere
+        SomethingInThere
+        SomethingInThere
+        SomethingInThere
+        SomethingInThere
+        SomethingInThere
+        SomethingInThere
+        SomethingInThere
+        SomethingInThere
+        SomethingInThere
+        SomethingInThere
+        SomethingInThere
+    </div>
+
+    <div>模拟悬浮窗</div>
+
+    <script>
+        // window.addEventListener('scroll', function() {
+        //     console.log(11)
+        //     // 给window和document加都可以
+        // })
+        const div = document.querySelector('div')
+        div.addEventListener('scroll', function() {
+            console.log(div.scrollTop)
+            // 获取被卷去的距离，单位px，scrollLeft同理
+        })
+
+        window.addEventListener('scroll', function() {
+            // 使用document.documentElement代表html元素，兼容性更好
+            console.log(document.documentElement.scrollTop)
+            // 获取被卷去的距离，单位px，scrollLeft同理
+            if(document.documentElement.scrollTop > 200) {
+                document.querySelectorAll('div')[1].style.display = 'block'
+            } else {
+                document.querySelectorAll('div')[1].style.display = 'none'
+            }
+        })
+    </script>
+</body>
+
+</html>
