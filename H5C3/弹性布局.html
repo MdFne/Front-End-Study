@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .d {
+            display: flex;
+            flex-wrap: wrap-reverse;
+            /* 默认flex-wrap: nowrap; 不换行 */
+            /* flex-wrap: wrap; 放不下自动换行 */
+            /* flex-wrap: wrap-reverse; 放不下自动换行，换行方向反向 */
+            /* 水平对齐方式justify-content: center; 居中对齐 */
+            /* justify-content: flex-start; 左对齐 */
+            /* justify-content: flex-end; 右对齐 */
+            /* justify-content: space-between; 项目之间等间距 */
+            /* justify-content: space-around; 项目之间等间距，项目与容器边框等间距 */
+            /* justify-content: space-evenly; 项目之间等间距 */
+
+            justify-content: center;
+        }
+
+        .d1,
+        .d2,
+        .d3 {
+            width: 100px;
+            height: 100px;
+        }
+
+        .d1 {
+            background-color: pink;
+        }
+
+        .d2 {
+            background-color: red;
+        }
+
+        .d3 {
+            background-color: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="d">
+        <div class="d1"></div>
+        <div class="d2"></div>
+        <div class="d3"></div>
+        <div class="d1"></div>
+        <div class="d2"></div>
+        <div class="d3"></div>
+        <div class="d1"></div>
+        <div class="d2"></div>
+        <div class="d3"></div>
+    </div>
+
+</body>
+
+</html>
