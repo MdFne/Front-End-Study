@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            /* 列的定义 */
+            grid-template-rows: 100px 200px 100px;
+            /* 行的定义 */
+            grid-gap: 10px;
+            /* 网格间距 */
+            grid-template-areas:
+                /* 区域命名 */
+                "header header header"
+                "sidebar content content";
+
+            /* 容器边框 */
+            border: 1px solid red;
+
+            /* 自动布局方向: column; 列方向,默认行方向row */
+            /* row dense: 行方向自动布局,表示"先行后列"，并且尽可能紧密填满，尽量不出现空格。 */
+            /* column dense: 列方向自动布局,表示"先列后行"，并且尽可能紧密填满，尽量不出现空格。 */
+            grid-auto-flow: row;
+        }
+
+        .d1 {
+            /* width: 100px;
+            height: 100px; */
+            background-color: pink;
+        }
+
+        .d2 {
+            background-color: lightblue;
+        }
+
+        .d3 {
+            background-color: lightcoral;
+        }
+
+        .d1:nth-child(1) {
+            grid-column-end: 2;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="grid-container">
+        <div class="d1" grid="header"></div>
+        <div class="d2" grid="sidebar"></div>
+        <div class="d3" grid="content"></div>
+        <div class="d1" grid="header"></div>
+        <div class="d2" grid="sidebar"></div>
+        <div class="d3" grid="content"></div>
+        <div class="d1" grid="header"></div>
+        <div class="d2" grid="sidebar"></div>
+        <div class="d3" grid="content"></div>
+    </div>
+
+    <script>
+        const obj = {
+            name: "张三",
+            age: 18,
+            say: () => {
+                console.log(this.name);
+            }
+        }
+        obj.say(); 
+    </script>
+</body>
+
+</html>

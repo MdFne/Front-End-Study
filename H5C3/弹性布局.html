@@ -8,7 +8,8 @@
     <style>
         .d {
             display: flex;
-            flex-wrap: wrap-reverse;
+
+            flex-wrap: wrap;
             /* 默认flex-wrap: nowrap; 不换行 */
             /* flex-wrap: wrap; 放不下自动换行 */
             /* flex-wrap: wrap-reverse; 放不下自动换行，换行方向反向 */
@@ -21,9 +22,18 @@
 
             justify-content: center;
 
-            /*  交叉轴对齐方式align-items: center; 居中对齐 */
+            /* 交叉轴对齐方式align-items: center; 居中对齐 */
             /* align-items: flex-start; 顶部对齐 */
             /* align-items: flex-end; 底部对齐 */
+            /* align-items: stretch; 如果项目未设置高度或设为auto，将占满整个容器的高度。 */
+            /* align-items: baseline; 项目基线对齐 */
+            /* align-items: center; 项目居中对齐 */
+
+            align-items: center;
+
+            /* width: 1000px; */
+            height: auto;
+            border: 1px solid red;
         }
 
         .d1,
@@ -35,14 +45,29 @@
 
         .d1 {
             background-color: pink;
+            height: 50px;
+            /* order: 1; 项目1先显示 */
+            /* order: 1; */
+
+            /* align-self属性允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性。
+            默认值为auto，表示继承父元素的align-items属性，如果没有父元素，则等同于stretch。 */
+            align-self: flex-end;
         }
 
         .d2 {
             background-color: red;
+            /* flex-grow：设置项目的放大比例，默认为0，即如果存在剩余空间，也不放大。
+            如果所有项目的flex-grow属性值都为1，则它们将等分剩余空间（如果有的话）。
+            如果一个项目的flex-grow属性值为2，其他项目都为1，则前者占据的剩余空间将比其他项多一倍。 */
+            flex-grow: 2;
         }
 
         .d3 {
             background-color: blue;
+            /* flex-shrink：设置项目的缩小比例，默认为1，即如果空间不足，该项目将缩小。
+            如果所有项目的flex-shrink属性都为1，当空间不足时，都将等比例缩小。
+            如果一个项目的flex-shrink属性为0，其他项目都为1，则空间不足时，前者不缩小。负值对该属性无效。 */
+            flex-shrink: 2;
         }
     </style>
 </head>
